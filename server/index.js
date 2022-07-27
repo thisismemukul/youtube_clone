@@ -23,6 +23,17 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
+
+app.use((err, req, res, next) => {
+    const status = err.statusCode || 500;
+    const message = err.message || "Something went wrong";
+    res.status(status).json({
+        success: false,
+        message,
+        status
+    });
+});
+
 app.listen(8800, () => {
     connect()
     console.log("Server is running on port 8800");
