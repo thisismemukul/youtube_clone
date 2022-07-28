@@ -1,4 +1,20 @@
-export const updateUser = (req, res, next) => {}
+import { createError } from "../error.js";
+import User from "../models/User.js";
+
+export const updateUser = async(req, res, next) => {
+    if (req.params.id === req.user.id) {
+        try {
+            const updatedUser = await User.findByIdAndUpdate(req.params.id, {
+                $set: req.body
+            }, { new: true, useFindAndModify: false })
+            res.status(200).json(updatedUser);
+        } catch (error) {
+
+        }
+    } else {
+        return next(createError(403, 'You are not authorized to update this user'));
+    }
+}
 export const deleteUser = (req, res, next) => {}
 export const getUser = (req, res, next) => {}
 export const subscribe = (req, res, next) => {}
