@@ -14,9 +14,12 @@
     "author": "Mukul Saini",
     "license": "ISC",
     "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cookie-parser": "^1.4.6",
         "dotenv": "^16.0.1",
         "express": "^4.18.1",
-        "mongoose": "^6.5.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.13.14",
         "nodemon": "^2.0.19"
     }
 }
