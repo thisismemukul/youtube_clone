@@ -51,6 +51,9 @@ align-items: center;
 gap: ${SPACING.l / 2}px;
 cursor: pointer;
 padding: ${SIZES.font / 2}px 0;
+&:hover {
+    background-color: ${({ theme }) => theme.soft};
+}
     `;
 const Hr = styled.hr`
     margin:${SIZES.radius}px 0;

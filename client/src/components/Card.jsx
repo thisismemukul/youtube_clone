@@ -9,9 +9,6 @@ width: ${(props) => props.type !== 'sm' && `300px`};
 margin-bottom: ${(props) => props.type === 'sm' ? `${SPACING.s}px` : `${SPACING.xl}px`};
 cursor: pointer;
 gap: ${SPACING.s}px;
-&:hover {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-}
 `;
 const Image = styled.img`
 width: 100%;
