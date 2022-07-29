@@ -18,6 +18,7 @@ import {
     MdOutlineSettingsBrightness,
     MdOutlineAccountCircle
 } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     flex: 1;
@@ -83,10 +84,12 @@ const Menu = ({ darkMode, setDarkMode }) => {
     return (
         <Container>
             <Wrapper>
-                <Logo>
-                    <IoLogoYoutube size={24} color="#ff0000" />
-                    <span>Youtube</span>
-                </Logo>
+                <Link to="/" style={{ textDecoration: 'none',color:'inherit' }}>
+                    <Logo>
+                        <IoLogoYoutube size={24} color="#ff0000" />
+                        <span>Youtube</span>
+                    </Logo>
+                </Link>
                 <Item>
                     <IoHomeSharp size={18} />
                     Home
@@ -162,3 +165,4 @@ const Menu = ({ darkMode, setDarkMode }) => {
 }
 
 export default Menu
+
