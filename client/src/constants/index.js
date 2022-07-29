@@ -1,4 +1,4 @@
 // import assets from "./assets";
-import { SPACING, SHADOWS, SIZES } from "./theme";
+import { SPACING, SHADOWS, SIZES, COLORS } from "./theme";
 
-export { SHADOWS, SIZES, SPACING };
+export { SHADOWS, SIZES, COLORS, SPACING };

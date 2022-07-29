@@ -1,3 +1,9 @@
+export const COLORS = {
+    primary: '#ff0000',
+    secondary: '#ff0000',
+    error: '#cc1a00',
+    white: '#ffffff',
+}
 export const SHADOWS = {
     light: {
         shadowColor: '#74858C',

@@ -1,0 +1,69 @@
+import React from 'react'
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { SIZES, SPACING } from '../constants';
+
+const Container = styled.div`
+width:300px;
+margin-bottom: 45px;
+cursor: pointer;
+gap: 10px;
+&:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+`;
+const Image = styled.img`
+width: 100%;
+height: 170px;
+background-color: #999;
+flex: 1;
+`;
+const Details = styled.div`
+display: flex;
+margin-top: ${SPACING.s * 2}px;
+gap: ${SPACING.s}px;
+`;
+const ChannelImage = styled.img`
+width: 34px;
+height: 34px;
+border-radius: 50%;
+background-color: #999;
+`;
+const Texts = styled.div``;
+const Title = styled.h1`
+font-size: ${SIZES.medium}px;
+font-weight: 500;
+color: ${({ theme }) => theme.text};
+`;
+const ChannelName = styled.h2`
+font-size: ${SIZES.font}px;
+color: ${({ theme }) => theme.textSoft};
+margin: ${SPACING.s}px 0;
+`;
+const Info = styled.div`
+font-size: ${SIZES.font}px;
+color: ${({ theme }) => theme.textSoft};
+`;
+const Card = () => {
+    return (
+        <Link to="/video/test" style={{ textDecoration: 'none' }}>
+            <Container>
+                <Image src='https://i.ytimg.com/vi/AiMv46tt_JM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBksT3YU-q4_PgB1hiMf8ZsiL69Yw' />
+                <Details>
+                    <ChannelImage src='https://yt3.ggpht.com/ws8PYywY8d0TBvG7ecdK6T00qNRxFtFF5AUyNVLnpenJ-khFPPo95BTGG589wmyrHrEoE76J=s68-c-k-c0x00ffffff-no-rj' />
+                    <Texts>
+                        <Title>
+                            The best of the best
+                        </Title>
+                        <ChannelName>
+                            Thisismemukul
+                        </ChannelName>
+                        <Info> 1,97,876,976 views · 1 day ago </Info>
+                    </Texts>
+                </Details>
+            </Container>
+        </Link>
+    )
+}
+
+export default Card
