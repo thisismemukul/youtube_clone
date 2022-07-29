@@ -22,7 +22,7 @@ import {
 const Container = styled.div`
     flex: 1;
     color:  ${({ theme }) => theme.text};
-    background-color: ${({ theme }) => theme.bg};
+    background-color: ${({ theme }) => theme.bgLighter};
     height: 100vh;
     font-size: ${SIZES.body}px;
     position: sticky;
