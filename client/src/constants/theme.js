@@ -1,53 +1,47 @@
-export const COLORS = {
-    primary: "#424874",
-    secondary: "#DCD6F7",
-    background: "#FDFAF6",
-    white: "#FFFFFF",
-    offwhite: "#fcfcfc",
-    lightDark: "#9BA3B2",
-    gray: "#74858C",
-    icons: "#424874",
-    black: '#000',
-};
-export const DARK_COLORS = {
-    primary: "#FFFFFF",
-    secondary: "#DCD6F7",
-    background: "#021929",
-    dark: "#424874",
-    white: "#FFFFFF",
-    light: "#FFFFFF",
-    icons: "#424874"
-};
-
-export const SHADOW = {
+export const SHADOWS = {
     light: {
-        shadowColor: LIGHT_COLORS.black,
-        shadowRadius: 4,
-        shadowOpacity: 0.1,
+        shadowColor: '#74858C',
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 1,
         },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
+    medium: {
+        shadowColor: '#74858C',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+
+        elevation: 7,
     },
     dark: {
-        shadowColor: LIGHT_COLORS.black,
-        shadowRadius: 4,
-        shadowOpacity: 0.3,
+        shadowColor: '#74858C',
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 7,
         },
+        shadowOpacity: 0.41,
+        shadowRadius: 9.11,
+
+        elevation: 14,
     },
 };
 
 export const SIZES = {
-    width,
-    height,
+    // width: 100,
+    // height: 100,
     title: 32,
     h2: 24,
     h3: 18,
     body: 14,
-    radius: 16,
+    radius: 15,
     base: 8,
     small: 12,
     font: 14,
@@ -59,6 +53,7 @@ export const SIZES = {
     icon34: 34,
 };
 export const SPACING = {
+    xs: 5,
     s: 8,
     m: 18,
     l: 24,

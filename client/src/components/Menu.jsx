@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { SPACING, SIZES } from '../constants';
 import { IoLogoYoutube, IoHomeSharp, IoCompassOutline } from "react-icons/io5";
 import {
     MdOutlineSubscriptions,
@@ -21,50 +21,65 @@ import {
 
 const Container = styled.div`
     flex: 1;
-    color: #fff;
-    background-color: #202020;
+    color:  ${({ theme }) => theme.text};
+    background-color: ${({ theme }) => theme.bg};
     height: 100vh;
-    font-size: 14px;
+    font-size: ${SIZES.body}px;
     position: sticky;
     top: 0;
     overflow: auto;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+    ::-webkit-scrollbar {
+        display: none;
+    }
     `;
 const Wrapper = styled.div`
-  padding: 18px 26px;
+  padding: ${SIZES.large}px ${SIZES.extraLarge}px;
     `;
 const Logo = styled.div`
 display: flex;
 align-items: center;
-gap: 6px;
+gap: ${SPACING.xs}px;
 font-weight: bold;
-margin-bottom: 25px;
+margin-bottom: ${SIZES.large}px;
     `;
 const Item = styled.div`
 display: flex;
 align-items: center;
-gap: 20px;
+gap: ${SPACING.l / 2}px;
 cursor: pointer;
-padding: 7.5px 0;
+padding: ${SIZES.font / 2}px 0;
     `;
 const Hr = styled.hr`
-    margin:15px 0;
-    border: 0.5px solid #373737;
+    margin:${SIZES.radius}px 0;
+    border: ${SPACING.xs / 9}px solid ${({ theme }) => theme.soft};
     `;
 const Login = styled.div``;
 const Button = styled.button`
-padding: 5px 15px;
+padding: ${SIZES.base}px ${SIZES.medium}px;
 background-color: transparent;
-border: 1px solid #3ea6ff;
-color: #3ea6ff;
-border-radius: 3px;
+border: 1px solid ${({ theme }) => theme.link};
+color: ${({ theme }) => theme.link};
+border-radius: ${SPACING.xs}px;
 font-weight: 500;
-margin-top: 10px;
+margin-top: ${SPACING.s}px;
 cursor: pointer;
 display: flex;
 align-items: center;
-gap: 5px;
+gap: ${SPACING.xs};
 `;
-const Menu = () => {
+const Title = styled.h2`
+font-size: ${SIZES.body}px;
+font-weight: 500;
+color:"#aaaaaa";
+margin-bottom: ${SPACING.s * 2}px;
+`;
+const SubTitle = styled.h4`
+font-size: ${SIZES.small}px;
+font-weight: 500;
+`;
+const Menu = ({ darkMode, setDarkMode }) => {
     return (
         <Container>
             <Wrapper>
@@ -73,72 +88,73 @@ const Menu = () => {
                     <span>Youtube</span>
                 </Logo>
                 <Item>
-                    <IoHomeSharp size={18} color="#fff" />
+                    <IoHomeSharp size={18} />
                     Home
                 </Item>
                 <Item>
-                    <IoCompassOutline size={18} color="#fff" />
+                    <IoCompassOutline size={18} />
                     Explore
                 </Item>
                 <Item>
-                    <MdOutlineSubscriptions size={18} color="#fff" />
+                    <MdOutlineSubscriptions size={18} />
                     Subscriptions
                 </Item>
                 <Hr />
                 <Item>
-                    <MdOutlineVideoLibrary size={18} color="#fff" />
+                    <MdOutlineVideoLibrary size={18} />
                     Library
                 </Item>
                 <Item>
-                    <MdHistory size={18} color="#fff" />
+                    <MdHistory size={18} />
                     History
                 </Item>
                 <Hr />
                 <Login>
-                    Sign in to like videos, comment, and subscribe.
+                    <SubTitle>Sign in to like videos, comment, and subscribe.</SubTitle>
                     <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
                 </Login>
                 <Hr />
+                <Title>More from YouTube</Title>
                 <Item>
-                    <MdOutlineLibraryMusic size={18} color="#fff" />
+                    <MdOutlineLibraryMusic size={18} />
                     Music
                 </Item>
                 <Item>
-                    <MdOutlineSportsBasketball size={18} color="#fff" />
+                    <MdOutlineSportsBasketball size={18} />
                     Sports
                 </Item>
                 <Item>
-                    <MdOutlineSportsEsports size={18} color="#fff" />
+                    <MdOutlineSportsEsports size={18} />
                     Gaming
                 </Item>
                 <Item>
-                    <MdOutlineMovie size={18} color="#fff" />
+                    <MdOutlineMovie size={18} />
                     Movies
                 </Item>
                 <Item>
-                    <MdOutlineArticle size={18} color="#fff" />
+                    <MdOutlineArticle size={18} />
                     News
                 </Item>
                 <Item>
-                    <MdOutlineLiveTv size={18} color="#fff" />
+                    <MdOutlineLiveTv size={18} />
                     Live
                 </Item>
                 <Hr />
                 <Item>
-                    <MdOutlineSettings size={18} color="#fff" />
+                    <MdOutlineSettings size={18} />
                     Settings
                 </Item>
                 <Item>
-                    <MdOutlinedFlag size={18} color="#fff" />
+                    <MdOutlinedFlag size={18} />
                     Report
                 </Item>
                 <Item>
-                    <MdOutlineHelpOutline size={18} color="#fff" />
+                    <MdOutlineHelpOutline size={18} />
                     Help
                 </Item>
-                <Item>
-                    <MdOutlineSettingsBrightness size={18} color="#fff" />
-                    Light Mode
+                <Item onClick={() => setDarkMode(!darkMode)}>
+                    <MdOutlineSettingsBrightness size={18} />
+                    {darkMode ? 'Light Mode' : 'Dark Mode'}
                 </Item>
             </Wrapper>
         </Container>
