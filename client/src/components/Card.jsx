@@ -4,26 +4,29 @@ import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
 
 const Container = styled.div`
-width:300px;
-margin-bottom: 45px;
+display: ${(props) => props.type === 'sm' && 'flex'};
+width: ${(props) => props.type !== 'sm' && `300px`};
+margin-bottom: ${(props) => props.type === 'sm' ? `${SPACING.s}px` : `${SPACING.xl}px`};
 cursor: pointer;
-gap: 10px;
+gap: ${SPACING.s}px;
 &:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 `;
 const Image = styled.img`
 width: 100%;
-height: 170px;
+height:  ${(props) => props.type === 'sm' ? `140px` : `170px`};
 background-color: #999;
 flex: 1;
 `;
 const Details = styled.div`
 display: flex;
-margin-top: ${SPACING.s * 2}px;
+margin-top: ${(props) => props.type !== 'sm' && `${SPACING.s * 2}px`};
 gap: ${SPACING.s}px;
+flex: 1;
 `;
 const ChannelImage = styled.img`
+display: ${(props) => props.type === 'sm' && 'none'};
 width: 34px;
 height: 34px;
 border-radius: 50%;
@@ -44,13 +47,13 @@ const Info = styled.div`
 font-size: ${SIZES.font}px;
 color: ${({ theme }) => theme.textSoft};
 `;
-const Card = () => {
+const Card = ({ type }) => {
     return (
         <Link to="/video/test" style={{ textDecoration: 'none' }}>
-            <Container>
-                <Image src='https://i.ytimg.com/vi/AiMv46tt_JM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBksT3YU-q4_PgB1hiMf8ZsiL69Yw' />
-                <Details>
-                    <ChannelImage src='https://yt3.ggpht.com/ws8PYywY8d0TBvG7ecdK6T00qNRxFtFF5AUyNVLnpenJ-khFPPo95BTGG589wmyrHrEoE76J=s68-c-k-c0x00ffffff-no-rj' />
+            <Container type={type}>
+                <Image type={type} src='https://i.ytimg.com/vi/AiMv46tt_JM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBksT3YU-q4_PgB1hiMf8ZsiL69Yw' />
+                <Details type={type}>
+                    <ChannelImage type={type} src='https://yt3.ggpht.com/ws8PYywY8d0TBvG7ecdK6T00qNRxFtFF5AUyNVLnpenJ-khFPPo95BTGG589wmyrHrEoE76J=s68-c-k-c0x00ffffff-no-rj' />
                     <Texts>
                         <Title>
                             The best of the best

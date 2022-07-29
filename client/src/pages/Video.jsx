@@ -1,6 +1,7 @@
 import React from 'react'
 import { MdOutlineThumbUp, MdOutlineThumbDown, MdOutlineReply, MdOutlineAddTask } from 'react-icons/md';
 import styled from 'styled-components';
+import Card from '../components/Card';
 import Comments from '../components/Comments';
 import { SPACING, SIZES, COLORS } from '../constants';
 const Container = styled.div`
@@ -8,7 +9,7 @@ display: flex;
 gap: ${SPACING.s}px;
 `;
 const Content = styled.div`
-flex: 5;
+flex: 6;
 `;
 const VideoWrapper = styled.div``;
 const Title = styled.div`
@@ -124,9 +125,20 @@ const Video = () => {
           <Subscribe>SUBSCRIBE</Subscribe>
         </Channel>
         <Hr />
-        <Comments/>
+        <Comments />
       </Content>
-      <Recommendation>Recommendation</Recommendation>
+      <Recommendation>
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+      </Recommendation>
     </Container>
   )
 }
