@@ -45,6 +45,9 @@ align-items: center;
 gap: 20px;
 cursor: pointer;
 padding: 7.5px 0;
+&:hover {
+    background-color: #1a1a1a;
+}
     `;
 const Hr = styled.hr`
     margin:15px 0;
