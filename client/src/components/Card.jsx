@@ -1,8 +1,8 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
-
+import {format} from 'timeago.js';
 const Container = styled.div`
 display: ${(props) => props.type === 'sm' && 'flex'};
 width: ${(props) => props.type !== 'sm' && `300px`};
@@ -44,21 +44,19 @@ const Info = styled.div`
 font-size: ${SIZES.font}px;
 color: ${({ theme }) => theme.textSoft};
 `;
-const Card = ({ type }) => {
+const Card = ({ type, video }) => {
     return (
         <Link to="/video/test" style={{ textDecoration: 'none' }}>
             <Container type={type}>
-                <Image type={type} src='https://i.ytimg.com/vi/AiMv46tt_JM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBksT3YU-q4_PgB1hiMf8ZsiL69Yw' />
+                <Image type={type} src={video.imgUrl} />
                 <Details type={type}>
                     <ChannelImage type={type} src='https://yt3.ggpht.com/ws8PYywY8d0TBvG7ecdK6T00qNRxFtFF5AUyNVLnpenJ-khFPPo95BTGG589wmyrHrEoE76J=s68-c-k-c0x00ffffff-no-rj' />
                     <Texts>
-                        <Title>
-                            The best of the best
-                        </Title>
+                        <Title>{video.title}</Title>
                         <ChannelName>
                             Thisismemukul
                         </ChannelName>
-                        <Info> 1,97,876,976 views · 1 day ago </Info>
+                        <Info> {video.views} views · {format(video.createdAt)} </Info>
                     </Texts>
                 </Details>
             </Container>
