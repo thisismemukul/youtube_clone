@@ -5,6 +5,7 @@ import { SPACING, SIZES } from '../constants';
 import {
   MdOutlineAccountCircle, MdOutlineSearch
 } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 position: sticky;
@@ -60,7 +61,9 @@ const Navbar = () => {
         <Search>
           <Input placeholder="Search" /><MdOutlineSearch size={18} />
         </Search>
-        <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
+        <Link to="/signin" style={{ textDecoration: "none" }}>
+          <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
+        </Link>
       </Wrapper>
     </Container>
   )
