@@ -97,14 +97,18 @@ const Menu = ({ darkMode, setDarkMode }) => {
                     <IoHomeSharp size={18} />
                     Home
                 </Item>
-                <Item>
-                    <IoCompassOutline size={18} />
-                    Explore
-                </Item>
-                <Item>
-                    <MdOutlineSubscriptions size={18} />
-                    Subscriptions
-                </Item>
+                <Link to="trending" style={{ textDecoration: "none", color: 'inherit' }}>
+                    <Item>
+                        <IoCompassOutline size={18} />
+                        Explore
+                    </Item>
+                </Link>
+                <Link to="subscriptions" style={{ textDecoration: "none", color: 'inherit' }}>
+                    <Item>
+                        <MdOutlineSubscriptions size={18} />
+                        Subscriptions
+                    </Item>
+                </Link>
                 <Hr />
                 <Item>
                     <MdOutlineVideoLibrary size={18} />
@@ -117,7 +121,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
                 <Hr />
                 <Login>
                     <SubTitle>Sign in to like videos, comment, and subscribe.</SubTitle>
-                    <Link to="/signin" style={{ textDecoration: "none" }}>
+                    <Link to="signin" style={{ textDecoration: "none" }}>
                         <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
                     </Link>
                 </Login>
