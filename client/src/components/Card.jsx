@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
 import {format} from 'timeago.js';
+import axios from 'axios';
+
 const Container = styled.div`
 display: ${(props) => props.type === 'sm' && 'flex'};
 width: ${(props) => props.type !== 'sm' && `300px`};
@@ -45,17 +47,30 @@ font-size: ${SIZES.font}px;
 color: ${({ theme }) => theme.textSoft};
 `;
 const Card = ({ type, video }) => {
+    const [channel, setChannel] = useState({});
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const fetchChannel = async () => {
+            try {
+                const res = await axios.get(`/users/find/${video.userId}`);
+                setChannel(res.data);
+                setLoading(false);
+            } catch (err) {
+                setError(err);
+            }
+        }
+        fetchChannel();
+    }, [video.userId]);
     return (
         <Link to="/video/test" style={{ textDecoration: 'none' }}>
             <Container type={type}>
                 <Image type={type} src={video.imgUrl} />
                 <Details type={type}>
-                    <ChannelImage type={type} src='https://yt3.ggpht.com/ws8PYywY8d0TBvG7ecdK6T00qNRxFtFF5AUyNVLnpenJ-khFPPo95BTGG589wmyrHrEoE76J=s68-c-k-c0x00ffffff-no-rj' />
+                    <ChannelImage type={type} src={channel.img} />
                     <Texts>
                         <Title>{video.title}</Title>
-                        <ChannelName>
-                            Thisismemukul
-                        </ChannelName>
+                        <ChannelName>{channel.name}</ChannelName>
                         <Info> {video.views} views · {format(video.createdAt)} </Info>
                     </Texts>
                 </Details>
