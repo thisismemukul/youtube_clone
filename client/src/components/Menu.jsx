@@ -87,7 +87,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
     return (
         <Container>
             <Wrapper>
-                <Link to="/" style={{ textDecoration: 'none',color:'inherit' }}>
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Logo>
                         <IoLogoYoutube size={24} color="#ff0000" />
                         <span>Youtube</span>
@@ -117,7 +117,9 @@ const Menu = ({ darkMode, setDarkMode }) => {
                 <Hr />
                 <Login>
                     <SubTitle>Sign in to like videos, comment, and subscribe.</SubTitle>
-                    <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
+                    <Link to="/signin" style={{ textDecoration: "none" }}>
+                        <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
+                    </Link>
                 </Login>
                 <Hr />
                 <Title>More from YouTube</Title>
