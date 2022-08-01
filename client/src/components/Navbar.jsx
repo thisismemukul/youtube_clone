@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { SPACING, SIZES } from '../constants';
 
 import {
-  MdOutlineAccountCircle, MdOutlineSearch
+  MdOutlineAccountCircle, MdOutlineSearch, MdOutlineVideoCall
 } from "react-icons/md";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
 position: sticky;
@@ -54,16 +55,39 @@ display: flex;
 align-items: center;
 gap: ${SPACING.xs};
 `;
+
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${SPACING.m}px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+  `;
+
+const Avatar = styled.img`
+  width: ${SIZES.extremeLarge}px;
+  height: ${SIZES.extremeLarge}px;
+  border-radius: 50%;
+  background-color: #ccc;
+  `;
+
 const Navbar = () => {
+  const { currentUser } = useSelector(state => state.user);
   return (
     <Container>
       <Wrapper>
         <Search>
           <Input placeholder="Search" /><MdOutlineSearch size={18} />
         </Search>
-        <Link to="/signin" style={{ textDecoration: "none" }}>
+        {currentUser ? (
+          <User>
+            <MdOutlineVideoCall size={18} />
+            <Avatar/>
+            {currentUser.name}
+          </User>
+        ) : (<Link to="/signin" style={{ textDecoration: "none" }}>
           <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
-        </Link>
+        </Link>)}
       </Wrapper>
     </Container>
   )

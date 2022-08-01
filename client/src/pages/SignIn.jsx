@@ -1,7 +1,9 @@
 import axios from 'axios';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
+import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -64,25 +66,27 @@ const SignIn = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-useEffect(() => {
-    function isValidEmail(email) {
-        return /\S+@\S+\.\S+/.test(email);
-    }
-    if (isValidEmail(UnameOrEmail)) {
-        setEmail(UnameOrEmail);
-    } else {
-        setUsername(UnameOrEmail);
-    }
-}, [UnameOrEmail])
 
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        function isValidEmail(email) {
+            return /\S+@\S+\.\S+/.test(email);
+        }
+        if (isValidEmail(UnameOrEmail)) {
+            setEmail(UnameOrEmail);
+        } else {
+            setUsername(UnameOrEmail);
+        }
+    }, [UnameOrEmail])
     const handleLogin = async (e) => {
         e.preventDefault();
+        dispatch(loginStart());
         try {
-            const response = username ? await axios.post('/auth/signin', { username,password }) : await axios.post('/auth/signin', { email, password });
-            console.log(response.data);
+            const response = username ? await axios.post('/auth/signin', { username, password }) : await axios.post('/auth/signin', { email, password });
+            dispatch(loginSuccess(response.data));
         } catch (error) {
-                console.log(error);
+            dispatch(loginFailure());
         }
     }
     return (
