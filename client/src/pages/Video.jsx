@@ -1,9 +1,15 @@
-import React from 'react'
-import { MdOutlineThumbUp, MdOutlineThumbDown, MdOutlineReply, MdOutlineAddTask } from 'react-icons/md';
+import axios from 'axios';
+import React,{useEffect,useState} from 'react'
+import { MdOutlineThumbUp, MdOutlineThumbDown, MdOutlineReply, MdOutlineAddTask, MdThumbUp, MdThumbDown } from 'react-icons/md';
+import {format} from 'timeago.js';
+
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import Card from '../components/Card';
 import Comments from '../components/Comments';
 import { SPACING, SIZES, COLORS } from '../constants';
+import { fetchSuccess } from '../redux/videoSlice';
 const Container = styled.div`
 display: flex;
 gap: ${SPACING.s}px;
@@ -86,6 +92,29 @@ cursor: pointer;
 `;
 
 const Video = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const { currentVideo } = useSelector((state) => state.video);
+  console.log(currentVideo);
+  const dispatch = useDispatch();
+
+  const path = useLocation().pathname.split("/")[2];
+
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        );
+        setChannel(channelRes.data);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (err) {}
+    };
+    fetchData();
+  }, [path, dispatch]);
+  
   return (
     <Container>
       <Content>
@@ -100,12 +129,27 @@ const Video = () => {
             allowFullScreen
           />
         </VideoWrapper>
-        <Title>Test Video</Title>
+        <Title>{currentVideo?.title}</Title>
         <Details>
-          <Info>7,84,91 views • Jun 22,2022</Info>
+          <Info>{currentVideo?.views} views • {format(currentVideo?.createdAt)}</Info>
           <Buttons>
-            <Button><MdOutlineThumbUp />123</Button>
-            <Button><MdOutlineThumbDown />Dislike</Button>
+          <Button >
+              {currentVideo?.likes?.includes(currentUser?._id) ? (
+                <MdThumbUp />
+              ) : (
+                <MdOutlineThumbUp />
+              )}{" "}
+              {currentVideo?.likes?.length}
+            </Button>
+          <Button >
+              {currentVideo?.likes?.includes(currentUser?._id) ? (
+                <MdThumbDown />
+              ) : (
+                <MdOutlineThumbDown />
+              )}{" "}
+              Dislike
+              {currentVideo?.likes?.length}
+            </Button>
             <Button><MdOutlineReply />Share</Button>
             <Button><MdOutlineAddTask />Save</Button>
           </Buttons>
@@ -113,13 +157,11 @@ const Video = () => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src='https://yt3.ggpht.com/k-_HJtdmP1EiG-ypRyZygN6UmyA9lpI0mR-BBkiDADVuGTAYSnMe4Wz6gv635JGeZWoBHrzXZpc=s88-c-k-c0x00ffffff-no-rj-mo' />
+            <Image src={channel.img} />
             <ChannelDetail>
-              <ChannelName>Thisismemukul</ChannelName>
-              <ChannelCounter>123k subscribers</ChannelCounter>
-              <Description>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. At, aliquam maxime iure optio deserunt accusantium fuga amet dignissimos adipisci quidem totam voluptatum praesentium esse. Tempore vel unde nemo porro vero!
-              </Description>
+              <ChannelName>{channel.name}</ChannelName>
+              <ChannelCounter>{channel.subscribers}</ChannelCounter>
+              <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe>SUBSCRIBE</Subscribe>
@@ -127,7 +169,7 @@ const Video = () => {
         <Hr />
         <Comments />
       </Content>
-      <Recommendation>
+      {/* <Recommendation>
         <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
@@ -138,7 +180,7 @@ const Video = () => {
         <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
-      </Recommendation>
+      </Recommendation> */}
     </Container>
   )
 }
