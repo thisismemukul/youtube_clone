@@ -8,3 +8,4 @@ axios
 timeago
 npm install @reduxjs/toolkit react-redux
 redux-persist
+firebase
