@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import Card from '../components/Card';
 import Comments from '../components/Comments';
 import { SPACING, SIZES, COLORS } from '../constants';
-import { fetchSuccess } from '../redux/videoSlice';
+import { dislike, fetchSuccess, like } from '../redux/videoSlice';
 const Container = styled.div`
 display: flex;
 gap: ${SPACING.s}px;
@@ -114,7 +114,15 @@ const Video = () => {
     };
     fetchData();
   }, [path, dispatch]);
-  
+  const handleLike = async () => {
+    await axios.put(`/users/like/${currentVideo._id}`);
+    dispatch(like(currentUser._id));
+  };
+  const handleDislike = async () => {
+    await axios.put(`/users/dislike/${currentVideo._id}`);
+    dispatch(dislike(currentUser._id));
+  };
+
   return (
     <Container>
       <Content>
@@ -133,7 +141,7 @@ const Video = () => {
         <Details>
           <Info>{currentVideo?.views} views • {format(currentVideo?.createdAt)}</Info>
           <Buttons>
-          <Button >
+          <Button onClick={handleLike}>
               {currentVideo?.likes?.includes(currentUser?._id) ? (
                 <MdThumbUp />
               ) : (
@@ -141,14 +149,13 @@ const Video = () => {
               )}{" "}
               {currentVideo?.likes?.length}
             </Button>
-          <Button >
-              {currentVideo?.likes?.includes(currentUser?._id) ? (
+          <Button onClick={handleDislike}>
+              {currentVideo?.dislikes?.includes(currentUser?._id) ? (
                 <MdThumbDown />
               ) : (
                 <MdOutlineThumbDown />
               )}{" "}
               Dislike
-              {currentVideo?.likes?.length}
             </Button>
             <Button><MdOutlineReply />Share</Button>
             <Button><MdOutlineAddTask />Save</Button>
