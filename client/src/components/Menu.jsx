@@ -19,6 +19,7 @@ import {
     MdOutlineAccountCircle
 } from "react-icons/md";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
     flex: 1;
@@ -84,6 +85,8 @@ font-size: ${SIZES.small}px;
 font-weight: 500;
 `;
 const Menu = ({ darkMode, setDarkMode }) => {
+    const { currentUser } = useSelector(state => state.user);
+
     return (
         <Container>
             <Wrapper>
@@ -119,13 +122,17 @@ const Menu = ({ darkMode, setDarkMode }) => {
                     History
                 </Item>
                 <Hr />
-                <Login>
-                    <SubTitle>Sign in to like videos, comment, and subscribe.</SubTitle>
-                    <Link to="signin" style={{ textDecoration: "none" }}>
-                        <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
-                    </Link>
-                </Login>
-                <Hr />
+                {!currentUser &&
+                    <>
+                        <Login>
+                            <SubTitle>Sign in to like videos, comment, and subscribe.</SubTitle>
+                            <Link to="signin" style={{ textDecoration: "none" }}>
+                                <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
+                            </Link>
+                        </Login>
+                        <Hr />
+                    </>
+                }
                 <Title>More from YouTube</Title>
                 <Item>
                     <MdOutlineLibraryMusic size={18} />
