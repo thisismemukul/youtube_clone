@@ -12,6 +12,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     height: calc(100vh - ${SPACING.m * 6}px);
+    margin: ${SPACING.l}px 0;
     color: ${({ theme }) => theme.text};
 `;
 const Wrapper = styled.div`
