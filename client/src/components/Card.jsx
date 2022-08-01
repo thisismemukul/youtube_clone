@@ -47,6 +47,7 @@ font-size: ${SIZES.font}px;
 color: ${({ theme }) => theme.textSoft};
 `;
 const Card = ({ type, video }) => {
+    console.log("video",video.userId)
     const [channel, setChannel] = useState({});
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
