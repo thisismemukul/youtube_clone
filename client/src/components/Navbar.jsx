@@ -82,7 +82,7 @@ const Navbar = () => {
         {currentUser ? (
           <User>
             <MdOutlineVideoCall size={18} />
-            <Avatar/>
+            <Avatar src={currentUser.img} />
             {currentUser.name}
           </User>
         ) : (<Link to="/signin" style={{ textDecoration: "none" }}>

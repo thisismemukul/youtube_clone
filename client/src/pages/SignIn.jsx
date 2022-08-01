@@ -96,15 +96,13 @@ const SignIn = () => {
         signInWithPopup(auth, provider)
           .then((result) => {
          const username = result.user.displayName.split(" ").join("").toLowerCase() + Math.floor(Math.random() * 90 + 10);
-            axios
-              .post("/auth/google", {
+            axios.post("/auth/google", {
                 name: result.user.displayName,
                 username: username,
                 email: result.user.email,
                 img: result.user.photoURL,
               })
               .then((res) => {
-                console.log(res)
                 dispatch(loginSuccess(res.data));
               });
           })
