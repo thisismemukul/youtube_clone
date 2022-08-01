@@ -129,26 +129,26 @@ const Video = () => {
             allowFullScreen
           />
         </VideoWrapper>
-        <Title>{currentVideo.title}</Title>
+        <Title>{currentVideo?.title}</Title>
         <Details>
-          <Info>{currentVideo.views} views • {format(currentVideo.createdAt)}</Info>
+          <Info>{currentVideo?.views} views • {format(currentVideo?.createdAt)}</Info>
           <Buttons>
           <Button >
-              {currentVideo.likes?.includes(currentUser?._id) ? (
+              {currentVideo?.likes?.includes(currentUser?._id) ? (
                 <MdThumbUp />
               ) : (
                 <MdOutlineThumbUp />
               )}{" "}
-              {currentVideo.likes?.length}
+              {currentVideo?.likes?.length}
             </Button>
           <Button >
-              {currentVideo.likes?.includes(currentUser?._id) ? (
+              {currentVideo?.likes?.includes(currentUser?._id) ? (
                 <MdThumbDown />
               ) : (
                 <MdOutlineThumbDown />
               )}{" "}
               Dislike
-              {currentVideo.likes?.length}
+              {currentVideo?.likes?.length}
             </Button>
             <Button><MdOutlineReply />Share</Button>
             <Button><MdOutlineAddTask />Save</Button>
@@ -161,7 +161,7 @@ const Video = () => {
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
               <ChannelCounter>{channel.subscribers}</ChannelCounter>
-              <Description>{currentVideo.desc}</Description>
+              <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe>SUBSCRIBE</Subscribe>
