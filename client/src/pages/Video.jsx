@@ -91,11 +91,14 @@ height: max-content;
 padding: ${SPACING.s}px ${SPACING.m}px;
 cursor: pointer;
 `;
-
+const VideoFrame = styled.video`
+  max-height: 720px;
+  width: 100%;
+  object-fit: cover;
+`;
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
-  console.log(currentVideo);
   const dispatch = useDispatch();
 
   const path = useLocation().pathname.split("/")[2];
@@ -133,15 +136,7 @@ const Video = () => {
     <Container>
       <Content>
         <VideoWrapper>
-          <iframe
-            width="100%"
-            height="720"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title='YouTube Video Player'
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipbord-media; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          <VideoFrame src={currentVideo.videoUrl} />
         </VideoWrapper>
         <Title>{currentVideo?.title}</Title>
         <Details>
@@ -184,7 +179,7 @@ const Video = () => {
           </Subscribe>
         </Channel>
         <Hr />
-        <Comments />
+        <Comments videoId={currentVideo._id} />
       </Content>
       {/* <Recommendation>
         <Card type="sm" />
