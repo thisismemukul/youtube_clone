@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { SPACING } from '../constants';
 import styled from 'styled-components';
 const Container = styled.div`
@@ -64,18 +64,32 @@ const Label = styled.label`
 
 
 const Upload = ({ setOpen }) => {
+  const [img, setImg] = useState(undefined);
+  const [imgPer, setImgPer] = useState(0);
+  const [video, setVideo] = useState(undefined);
+  const [videoPer, setVideoPer] = useState(0);
+  const [desc, setDesc] = useState("");
+  const [title, setTitle] = useState("");
+  const [tags, setTags] = useState([]);
+
+  const handleTags = (e) => {
+    setTags(e.target.value.split(","));
+  }
+  useEffect(() => {  }, [video]);
+  useEffect(() => {  }, [img]);
+  
     return (
         <Container>
             <Wrapper>
                 <Close onClick={()=>setOpen(false)}>X</Close>
                 <Title>Upload a New Video</Title>
                 <Label>Video</Label>
-                <Input type="file" accept="video/*" />
-                <Input type="text" placeholder="Title" />
-                <Desc placeholder="Description" rows={8} />
-                <Input type="text" placeholder="Separate the tags with commas." />
+                <Input type="file" accept="video/*" onChange={e=>setVideo(e.target.files[0])} />
+                <Input type="text" placeholder="Title" onChange={e=>setTitle(e.target.value)} />
+                <Desc placeholder="Description" rows={8} onChange={e=>setDesc(e.target.value)} />
+                <Input type="text" placeholder="Separate the tags with commas." onChange={handleTags} />
                 <Label>Image</Label>
-                <Input type="file" accept="image/*" />
+                <Input type="file" accept="image/*" onChange={e=>setImg(e.target.files[0])} />
                 <Button>Upload</Button>
             </Wrapper>
         </Container>
