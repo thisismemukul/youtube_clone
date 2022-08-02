@@ -87,7 +87,11 @@ const Navbar = () => {
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder="Search" onChange={e=>setQ(e.target.value)} /><MdOutlineSearch size={18} style={{cursor:"pointer"}} onClick={()=>navigate(`/search?q=${q}`)} />
+            <Input placeholder="Search" onChange={e=>setQ(e.target.value)} onKeyPress={event => {
+                if (event.key === 'Enter') {
+                  navigate(`/search?q=${q}`)
+                }
+              }} /><MdOutlineSearch size={18} style={{cursor:"pointer"}} onClick={()=>navigate(`/search?q=${q}`)} />
           </Search>
           {currentUser ? (
             <User>

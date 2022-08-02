@@ -1,13 +1,16 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
-import {format} from 'timeago.js';
+import timeago from 'timeago.js';
+
+
 import axios from 'axios';
+import LoadingComp from './LoadingComp';
 
 const Container = styled.div`
 display: ${(props) => props.type === 'sm' && 'flex'};
-width: ${(props) => props.type == 'sm' ? `200px` : `300px`};
+width: ${(props) => props.type === 'sm' ? `200px` : `300px`};
 margin-bottom: ${(props) => props.type === 'sm' ? `${SPACING.s}px` : `${SPACING.xl}px`};
 cursor: pointer;
 gap: ${SPACING.s}px;
@@ -47,7 +50,7 @@ font-size: ${SIZES.font}px;
 color: ${({ theme }) => theme.textSoft};
 `;
 const Card = ({ type, video }) => {
-    console.log("video",video.userId)
+    var timeagoInstance = timeago();
     const [channel, setChannel] = useState({});
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
@@ -65,17 +68,22 @@ const Card = ({ type, video }) => {
     }, [video.userId]);
     return (
         <Link to={`/video/${video._id}`} style={{ textDecoration: 'none' }}>
-            <Container type={type}>
-                <Image type={type} src={video.imgUrl} />
-                <Details type={type}>
-                    <ChannelImage type={type} src={channel.img} />
-                    <Texts>
-                        <Title>{video.title}</Title>
-                        <ChannelName>{channel.name}</ChannelName>
-                        <Info> {video.views} views · {format(video.createdAt)} </Info>
-                    </Texts>
-                </Details>
-            </Container>
+            {error && <p>{error}</p>}
+            {loading ? (
+                <LoadingComp />
+            ) : (
+                <Container type={type}>
+                    <Image type={type} src={video.imgUrl} />
+                    <Details type={type}>
+                        <ChannelImage type={type} src={channel.img} />
+                        <Texts>
+                            <Title>{video.title}</Title>
+                            <ChannelName>{channel.name}</ChannelName>
+                            <Info> {video.views} views · {timeagoInstance.format(video.createdAt)} </Info>
+                        </Texts>
+                    </Details>
+                </Container>
+            )}
         </Link>
     )
 }

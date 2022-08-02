@@ -6,6 +6,6 @@ styled-components
 react-router-dom
 axios
 timeago
-npm install @reduxjs/toolkit react-redux
+reduxjs/toolkit react-redux
 redux-persist
 firebase

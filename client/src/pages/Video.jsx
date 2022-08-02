@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React,{useEffect,useState} from 'react'
 import { MdOutlineThumbUp, MdOutlineThumbDown, MdOutlineReply, MdOutlineAddTask, MdThumbUp, MdThumbDown } from 'react-icons/md';
-import {format} from 'timeago.js';
+import timeago from 'timeago.js';
+
 
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -97,6 +98,8 @@ max-height:30.875rem;
 height:100%;
 `;
 const Video = () => {
+  var timeagoInstance = timeago();
+
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
   const dispatch = useDispatch();
@@ -140,7 +143,7 @@ const Video = () => {
         </VideoWrapper>
         <Title>{currentVideo?.title}</Title>
         <Details>
-          <Info>{currentVideo?.views} views • {format(currentVideo?.createdAt)}</Info>
+          <Info>{currentVideo?.views} views • {timeagoInstance.format(currentVideo?.createdAt)}</Info>
           <Buttons>
           <Button onClick={handleLike}>
               {currentVideo?.likes?.includes(currentUser?._id) ? (
