@@ -11,6 +11,7 @@ import Comments from '../components/Comments';
 import { SPACING, SIZES, COLORS } from '../constants';
 import { dislike, fetchSuccess, like } from '../redux/videoSlice';
 import { subscription } from '../redux/userSlice';
+import Recommendation from '../components/Recommendation';
 const Container = styled.div`
 display: flex;
 gap: ${SPACING.s}px;
@@ -49,9 +50,7 @@ const Hr = styled.hr`
     margin:${SIZES.radius}px 0;
     border: ${SPACING.xs / 9}px solid ${({ theme }) => theme.soft};
     `;
-const Recommendation = styled.div`
-flex: 3;
-`;
+
 const Channel = styled.div`
 display: flex;
 flex-direction: space-between;
@@ -181,18 +180,7 @@ const Video = () => {
         <Hr />
         <Comments videoId={currentVideo?._id} />
       </Content>
-      {/* <Recommendation>
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-      </Recommendation> */}
+     <Recommendation tags={currentVideo?.tags} />
     </Container>
   )
 }
