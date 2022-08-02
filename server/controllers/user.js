@@ -40,10 +40,10 @@ export const subscribe = async(req, res, next) => {
     try {
         await User.findByIdAndUpdate(req.user.id, {
             $push: { subscribedUsers: req.params.id },
-        });
+        }, { useFindAndModify: false });
         await User.findByIdAndUpdate(req.params.id, {
             $inc: { subscribers: 1 },
-        });
+        }, { useFindAndModify: false });
         res.status(200).json("Subscription Successful");
     } catch (err) {
         next(err);
@@ -55,10 +55,10 @@ export const unsubscribe = async(req, res, next) => {
         try {
             await User.findByIdAndUpdate(req.user.id, {
                 $pull: { subscribedUsers: req.params.id },
-            });
+            }, { useFindAndModify: false });
             await User.findByIdAndUpdate(req.params.id, {
                 $inc: { subscribers: -1 },
-            });
+            }, { useFindAndModify: false });
             res.status(200).json("Unsubscription successfull.")
         } catch (err) {
             next(err);

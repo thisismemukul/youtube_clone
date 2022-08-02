@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import { SPACING, SIZES } from '../constants';
 
@@ -7,6 +7,7 @@ import {
 } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Upload from './Upload';
 
 const Container = styled.div`
 position: sticky;
@@ -64,6 +65,9 @@ const User = styled.div`
   color: ${({ theme }) => theme.text};
   `;
 
+const UploadVideo = styled.span`
+cursor: pointer;
+  `;
 const Avatar = styled.img`
   width: ${SIZES.extremeLarge}px;
   height: ${SIZES.extremeLarge}px;
@@ -72,24 +76,30 @@ const Avatar = styled.img`
   `;
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
   const { currentUser } = useSelector(state => state.user);
   return (
-    <Container>
-      <Wrapper>
-        <Search>
-          <Input placeholder="Search" /><MdOutlineSearch size={18} />
-        </Search>
-        {currentUser ? (
-          <User>
-            <MdOutlineVideoCall size={18} />
-            <Avatar src={currentUser.img} />
-            {currentUser.name}
-          </User>
-        ) : (<Link to="/signin" style={{ textDecoration: "none" }}>
-          <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
-        </Link>)}
-      </Wrapper>
-    </Container>
+    <>
+      <Container>
+        <Wrapper>
+          <Search>
+            <Input placeholder="Search" /><MdOutlineSearch size={18} />
+          </Search>
+          {currentUser ? (
+            <User>
+              <UploadVideo>
+                <MdOutlineVideoCall size={18} onClick={() => setOpen(true)} />
+              </UploadVideo>
+              <Avatar src={currentUser.img} />
+              {currentUser.name}
+            </User>
+          ) : (<Link to="/signin" style={{ textDecoration: "none" }}>
+            <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
+          </Link>)}
+        </Wrapper>
+      </Container>
+      {open && <Upload setOpen={setOpen} />}
+    </>
   )
 }
 
