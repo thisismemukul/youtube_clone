@@ -5,7 +5,7 @@ import { SPACING, SIZES } from '../constants';
 import {
   MdOutlineAccountCircle, MdOutlineSearch, MdOutlineVideoCall
 } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Upload from './Upload';
 
@@ -36,12 +36,14 @@ justify-content: space-between;
 padding: ${SPACING.xs}px;
 border: 1px solid "#ccc";
 border-radius: ${SPACING.xs}px;
+color: ${({ theme }) => theme.text};
 `;
 const Input = styled.input`
 width: 100%;
 border: none;
 outline: 1px solid ${({ theme }) => theme.bg};
 padding: ${SPACING.xs}px;
+color: ${({ theme }) => theme.text};
 background-color: transparent;
   `;
 const Button = styled.button`
@@ -76,14 +78,16 @@ const Avatar = styled.img`
   `;
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [q, setQ] = useState("");
   const { currentUser } = useSelector(state => state.user);
   return (
     <>
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder="Search" /><MdOutlineSearch size={18} />
+            <Input placeholder="Search" onChange={e=>setQ(e.target.value)} /><MdOutlineSearch size={18} style={{cursor:"pointer"}} onClick={()=>navigate(`/search?q=${q}`)} />
           </Search>
           {currentUser ? (
             <User>
