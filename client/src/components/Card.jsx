@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const Container = styled.div`
 display: ${(props) => props.type === 'sm' && 'flex'};
-width: ${(props) => props.type !== 'sm' && `300px`};
+width: ${(props) => props.type == 'sm' ? `200px` : `300px`};
 margin-bottom: ${(props) => props.type === 'sm' ? `${SPACING.s}px` : `${SPACING.xl}px`};
 cursor: pointer;
 gap: ${SPACING.s}px;

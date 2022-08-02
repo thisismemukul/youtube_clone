@@ -91,9 +91,10 @@ padding: ${SPACING.s}px ${SPACING.m}px;
 cursor: pointer;
 `;
 const VideoFrame = styled.video`
-  max-height: 720px;
-  width: 100%;
-  object-fit: cover;
+max-width:64rem;
+width:100%;
+max-height:30.875rem;
+height:100%;
 `;
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user);
