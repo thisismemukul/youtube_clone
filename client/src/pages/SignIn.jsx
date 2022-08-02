@@ -6,6 +6,7 @@ import { SIZES, SPACING } from '../constants';
 import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -65,11 +66,10 @@ const Link = styled.span`
 
 const SignIn = () => {
     const [UnameOrEmail, setUnameOrEmail] = useState("");
-    const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -88,6 +88,7 @@ const SignIn = () => {
         try {
             const response = username ? await axios.post('/auth/signin', { username, password }) : await axios.post('/auth/signin', { email, password });
             dispatch(loginSuccess(response.data));
+            navigate('/');
         } catch (error) {
             dispatch(loginFailure());
         }
@@ -105,7 +106,9 @@ const SignIn = () => {
               })
               .then((res) => {
                 dispatch(loginSuccess(res.data));
-              });
+                console.log(res.data);
+            navigate('/');
+        });
           })
           .catch((error) => {
             dispatch(loginFailure());

@@ -6,7 +6,6 @@ import {format} from 'timeago.js';
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from 'styled-components';
-import Card from '../components/Card';
 import Comments from '../components/Comments';
 import { SPACING, SIZES, COLORS } from '../constants';
 import { dislike, fetchSuccess, like } from '../redux/videoSlice';
@@ -54,6 +53,7 @@ const Hr = styled.hr`
 const Channel = styled.div`
 display: flex;
 flex-direction: space-between;
+justify-content: space-between;
 `;
 const ChannelInfo = styled.div`
 display: flex;
@@ -78,7 +78,7 @@ margin-bottom: ${SPACING.m}px;
 color: ${({ theme }) => theme.textSoft};
 font-size: ${SIZES.small}px;
 `;
-const Description = styled.div`
+const Description = styled.p`
 font-size: ${SIZES.body}px;
 `;
 const Subscribe = styled.button`
