@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineThumbUp, MdOutlineThumbDown, MdOutlineReply, MdOutlineAddTask, MdThumbUp, MdThumbDown } from 'react-icons/md';
 import timeago from 'timeago.js';
 import { useDispatch, useSelector } from "react-redux";
@@ -109,12 +109,13 @@ font-size: ${SIZES.body}px;
 }
 `;
 const DescriptionMob = styled.p`
-display: none;
+max-width: 300px;
 font-size: ${SIZES.body}px;
+overflow: hidden;
 color: ${({ theme }) => theme.text};
-@media only screen and (max-width: 700px) {
-  display: block;
-  padding: ${SPACING.s}px;
+padding: ${SPACING.s}px;
+@media only screen and (min-width: 700px) {
+  display: none;
 }
 `;
 const Subscribe = styled.button`
@@ -152,7 +153,7 @@ const Video = () => {
         );
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
-      } catch (err) {}
+      } catch (err) { }
     };
     fetchData();
   }, [path, dispatch]);
@@ -180,7 +181,7 @@ const Video = () => {
         <Details>
           <Info>{currentVideo?.views} views • {timeagoInstance.format(currentVideo?.createdAt)}</Info>
           <Buttons>
-          <Button onClick={handleLike}>
+            <Button onClick={handleLike}>
               {currentVideo?.likes?.includes(currentUser?._id) ? (
                 <MdThumbUp />
               ) : (
@@ -188,7 +189,7 @@ const Video = () => {
               )}{" "}
               {currentVideo?.likes?.length}
             </Button>
-          <Button onClick={handleDislike}>
+            <Button onClick={handleDislike}>
               {currentVideo?.dislikes?.includes(currentUser?._id) ? (
                 <MdThumbDown />
               ) : (
@@ -200,7 +201,7 @@ const Video = () => {
             <Button><MdOutlineAddTask />Save</Button>
           </Buttons>
         </Details>
-            <DescriptionMob>{currentVideo?.desc}</DescriptionMob>
+              <DescriptionMob>{currentVideo?.desc}</DescriptionMob>
         <Hr />
         <Channel>
           <ChannelInfo>
@@ -220,7 +221,7 @@ const Video = () => {
         <Hr />
         <Comments videoId={currentVideo?._id} />
       </Content>
-     <Recommendation tags={currentVideo?.tags} />
+      <Recommendation tags={currentVideo?.tags} />
     </Container>
   )
 }

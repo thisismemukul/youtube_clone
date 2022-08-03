@@ -14,12 +14,22 @@ width: ${(props) => props.type === 'sm' ? `200px` : `300px`};
 margin-bottom: ${(props) => props.type === 'sm' ? `${SPACING.s}px` : `${SPACING.xl}px`};
 cursor: pointer;
 gap: ${SPACING.s}px;
+@media only screen and (max-width: 700px) {
+    display: block;
+    width: 380px;
+    left: 0;
+    right: 0;
+    margin: auto;
+      }
 `;
 const Image = styled.img`
 width: 100%;
 height:  ${(props) => props.type === 'sm' ? `140px` : `170px`};
 background-color: #999;
 flex: 1;
+@media only screen and (max-width: 700px) {
+    height: 200px;
+      }
 `;
 const Details = styled.div`
 display: flex;
@@ -34,7 +44,12 @@ height: 34px;
 border-radius: 50%;
 background-color: #999;
 `;
-const Texts = styled.div``;
+const Texts = styled.div`
+@media only screen and (max-width: 700px) {
+    padding: ${SPACING.s}px;
+    width: ${(props) => props.type === 'sm' ? `100%` : `360px`};
+}
+      `;
 const Title = styled.h1`
 font-size: ${SIZES.medium}px;
 font-weight: 500;
@@ -76,7 +91,7 @@ const Card = ({ type, video }) => {
                     <Image type={type} src={video.imgUrl} />
                     <Details type={type}>
                         <ChannelImage type={type} src={channel.img} />
-                        <Texts>
+                        <Texts type={type}>
                             <Title>{video.title}</Title>
                             <ChannelName>{channel.name}</ChannelName>
                             <Info> {video.views} views · {timeagoInstance.format(video.createdAt)} </Info>
