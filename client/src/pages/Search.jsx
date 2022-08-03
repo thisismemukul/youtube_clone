@@ -4,11 +4,17 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Card from "../components/Card";
 import LoadingComp from "../components/LoadingComp";
+import { SPACING } from "../constants";
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  @media only screen and (max-width: 700px) {
+    display: block;
+    min-height: 100vh;
+  margin-top: ${SPACING.l}px;
+      }
 `;
 const Text = styled.div`
 display: flex;
