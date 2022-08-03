@@ -35,6 +35,9 @@ const Container = styled.div`
     ::-webkit-scrollbar {
         display: none;
     }
+    @media only screen and (max-width: 700px) {
+        display: none;
+    }
     `;
 const Wrapper = styled.div`
   padding: ${SIZES.large}px ${SIZES.extraLarge}px;

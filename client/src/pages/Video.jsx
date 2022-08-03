@@ -171,7 +171,7 @@ const Video = () => {
             <Image src={channel.img} />
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
-              <ChannelCounter>{channel.subscribers}</ChannelCounter>
+              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>

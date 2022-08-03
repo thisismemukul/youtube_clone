@@ -7,6 +7,9 @@ const Container = styled.div`
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
+@media only screen and (max-width: 700px) {
+    justify-content: center;
+}
 `;
 const Details = styled.div`
 display: flex;

@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import { SPACING, SIZES } from '../constants';
+import { IoLogoYoutube } from "react-icons/io5";
 
 import {
-  MdOutlineAccountCircle, MdOutlineSearch, MdOutlineVideoCall
+  MdOutlineAccountCircle, MdOutlineArrowLeft, MdOutlineSearch, MdOutlineVideoCall
 } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -23,7 +24,20 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 0 ${SPACING.xl / 2}px;
   position: relative;
+  @media only screen and (max-width: 700px) {
+justify-content: space-between;
+}
   `;
+  const Back = styled.div`
+  font-weight: bold;
+  visibility: hidden;
+  @media only screen and (max-width: 700px) {
+   
+    display: flex;
+    justify-content: flex-end;
+}
+
+      `;
 const Search = styled.div`
 width: ${SPACING.xl}%;
 position: absolute;
@@ -37,6 +51,17 @@ padding: ${SPACING.xs}px;
 border: 1px solid "#ccc";
 border-radius: ${SPACING.xs}px;
 color: ${({ theme }) => theme.text};
+@media only screen and (max-width: 700px) {
+width: 40%;
+&:hover ${Back} {
+  visibility: visible;
+}
+
+&:hover {
+    width: 90%;
+    background-color: ${({ theme }) => theme.bgLighter};
+  }
+}
 `;
 const Input = styled.input`
 width: 100%;
@@ -45,6 +70,12 @@ outline: 1px solid ${({ theme }) => theme.bg};
 padding: ${SPACING.xs}px;
 color: ${({ theme }) => theme.text};
 background-color: transparent;
+@media only screen and (max-width: 700px) {
+&:hover {
+    width: 90%;
+    background-color: ${({ theme }) => theme.bgLighter};
+  }
+}
   `;
 const Button = styled.button`
 padding: ${SIZES.base}px ${SIZES.medium}px;
@@ -76,6 +107,28 @@ const Avatar = styled.img`
   border-radius: 50%;
   background-color: #ccc;
   `;
+const Text = styled.div`
+font-size: ${SIZES.font}px;
+@media only screen and (max-width: 700px) {
+  display: none;
+}
+
+      `;
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${SPACING.xs}px;
+  font-weight: bold;
+  margin-bottom: ${SIZES.large}px;
+  visibility: hidden;
+  @media only screen and (max-width: 700px) {
+    margin-bottom: 0px;
+    visibility: visible;
+    display: flex;
+    justify-content: flex-end;
+}
+
+      `;
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -86,12 +139,21 @@ const Navbar = () => {
     <>
       <Container>
         <Wrapper>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Logo>
+              <IoLogoYoutube size={24} color="#ff0000" />
+              <span>Youtube</span>
+            </Logo>
+          </Link>
           <Search>
-            <Input placeholder="Search" onChange={e=>setQ(e.target.value)} onKeyPress={event => {
-                if (event.key === 'Enter') {
-                  navigate(`/search?q=${q}`)
-                }
-              }} /><MdOutlineSearch size={18} style={{cursor:"pointer"}} onClick={()=>navigate(`/search?q=${q}`)} />
+            <Back>
+              <MdOutlineArrowLeft size={36} style={{ cursor: "pointer" }} onClick={() =>    window.location.reload(false)} />
+            </Back>
+            <Input placeholder="Search" onChange={e => setQ(e.target.value)} onKeyPress={event => {
+              if (event.key === 'Enter') {
+                navigate(`/search?q=${q}`)
+              }
+            }} /><MdOutlineSearch size={18} style={{ cursor: "pointer" }} onClick={() => navigate(`/search?q=${q}`)} />
           </Search>
           {currentUser ? (
             <User>
@@ -99,7 +161,7 @@ const Navbar = () => {
                 <MdOutlineVideoCall size={18} onClick={() => setOpen(true)} />
               </UploadVideo>
               <Avatar src={currentUser.img} />
-              {currentUser.name}
+              <Text> {currentUser.name} </Text>
             </User>
           ) : (<Link to="/signin" style={{ textDecoration: "none" }}>
             <Button><MdOutlineAccountCircle size={18} />SIGN IN</Button>
