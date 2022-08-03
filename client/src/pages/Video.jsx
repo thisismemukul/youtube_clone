@@ -218,16 +218,8 @@ const Video = () => {
           </Subscribe>
         </Channel>
         <Hr />
-        {/* <Comments videoId={currentVideo?._id} /> */}
+        <Comments videoId={currentVideo?._id} />
       </Content>
-     <Recommendation tags={currentVideo?.tags} />
-     <Recommendation tags={currentVideo?.tags} />
-     <Recommendation tags={currentVideo?.tags} />
-     <Recommendation tags={currentVideo?.tags} />
-     <Recommendation tags={currentVideo?.tags} />
-     <Recommendation tags={currentVideo?.tags} />
-     <Recommendation tags={currentVideo?.tags} />
-     <Recommendation tags={currentVideo?.tags} />
      <Recommendation tags={currentVideo?.tags} />
     </Container>
   )

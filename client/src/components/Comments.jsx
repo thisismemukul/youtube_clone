@@ -10,6 +10,9 @@ const NewComment = styled.div`
 display: flex;
 align-items: center;
 gap: ${SPACING.s}px;
+@media only screen and (max-width: 700px) {
+  margin-bottom: ${SPACING.s}px;
+}
 `;
 const Avatar = styled.img`
 width: 50px;
@@ -26,31 +29,35 @@ padding: ${SPACING.xs}px;
 width: 100%;
 `;
 
-const Comments = ({videoId}) => {
+const Comments = ({ videoId }) => {
 
-    const { currentUser } = useSelector((state) => state.user);
-  
-    const [comments, setComments] = useState([]);
-    useEffect(() => {
-      const fetchComments = async () => {
-        try {
-          const res = await axios.get(`/comments/${videoId}`);
-          setComments(res.data);
-        } catch (err) {}
-      };
-      fetchComments();
-    }, [videoId]);
-    return (
-        <Container>
-            <NewComment>
-                <Avatar src={currentUser.img}/>
-                <Input placeholder="Write a comment..." />
-            </NewComment>
-            {comments.map(comment => (
-                <Comment key={comment._id} comment={comment} />
-            ))}
-        </Container>
-    )
+  const { currentUser } = useSelector((state) => state.user);
+
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await axios.get(`/comments/${videoId}`);
+        setComments(res.data);
+      } catch (err) { }
+    };
+    fetchComments();
+  }, [videoId]);
+  return (
+    <Container>
+      <NewComment>
+        {currentUser ? (
+          <Avatar src={currentUser?.img} />
+        ) : (
+          <Avatar src="https://i.pravatar.cc/150?img=3" />
+        )}
+        <Input placeholder="Write a comment..." />
+      </NewComment>
+      {comments.map(comment => (
+        <Comment key={comment._id} comment={comment} />
+      ))}
+    </Container>
+  )
 }
 
 export default Comments
