@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import Video from './pages/Video';
 import SignIn from './pages/SignIn';
 import Search from './pages/Search';
+import SignUp from './pages/SignUp';
 const Container = styled.div`
 display: flex;
 `;
@@ -39,6 +40,7 @@ const App = () => {
                   <Route path="subscriptions" element={<Home type="sub" />} />
                   <Route path="search" element={<Search />} />
                   <Route path="signin" element={<SignIn />} />
+                  <Route path="signup" element={<SignUp />} />
                   <Route path="video">
                     <Route path=":id" element={<Video />} />
                   </Route>
