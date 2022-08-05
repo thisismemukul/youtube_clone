@@ -4,11 +4,12 @@ import { SPACING, SIZES } from '../constants';
 import { IoLogoYoutube } from "react-icons/io5";
 
 import {
-  MdOutlineAccountCircle, MdOutlineArrowLeft, MdOutlineSearch, MdOutlineVideoCall
+  MdOutlineAccountCircle, MdOutlineArrowLeft, MdOutlineMenu, MdOutlineSearch, MdOutlineVideoCall
 } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Upload from './Upload';
+import Menu from './Menu';
 
 const Container = styled.div`
 position: sticky;
@@ -28,7 +29,7 @@ const Wrapper = styled.div`
 justify-content: space-between;
 }
   `;
-  const Back = styled.div`
+const Back = styled.div`
   font-weight: bold;
   visibility: hidden;
   @media only screen and (max-width: 700px) {
@@ -52,7 +53,6 @@ border: 1px solid "#ccc";
 border-radius: ${SPACING.xs}px;
 color: ${({ theme }) => theme.text};
 @media only screen and (max-width: 700px) {
-width: 40%;
 &:hover ${Back} {
   visibility: visible;
 }
@@ -71,6 +71,7 @@ padding: ${SPACING.xs}px;
 color: ${({ theme }) => theme.text};
 background-color: transparent;
 @media only screen and (max-width: 700px) {
+ width: 0%;
 &:hover {
     width: 90%;
     background-color: ${({ theme }) => theme.bgLighter};
@@ -106,6 +107,12 @@ const Avatar = styled.img`
   height: ${SIZES.extremeLarge}px;
   border-radius: 50%;
   background-color: #ccc;
+  @media only screen and (max-width: 700px) {
+    display: ${(props) => props.type !== 'sm' ? `none`: `flex`};
+  }
+  @media only screen and (min-width: 700px) {
+    display: ${(props) => props.type === 'sm' && `none`};
+  }
   `;
 const Text = styled.div`
 font-size: ${SIZES.font}px;
@@ -130,9 +137,10 @@ const Logo = styled.div`
 
       `;
 
-const Navbar = () => {
+const Navbar = ({ darkMode, setDarkMode }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const [q, setQ] = useState("");
   const { currentUser } = useSelector(state => state.user);
   return (
@@ -141,13 +149,14 @@ const Navbar = () => {
         <Wrapper>
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <Logo>
+              <MdOutlineMenu onClick={() => setOpenMenu(true)} />
               <IoLogoYoutube size={24} color="#ff0000" />
               <span>Youtube</span>
             </Logo>
           </Link>
           <Search>
             <Back>
-              <MdOutlineArrowLeft size={36} style={{ cursor: "pointer" }} onClick={() =>    window.location.reload(false)} />
+              <MdOutlineArrowLeft size={36} style={{ cursor: "pointer" }} onClick={() => window.location.reload(false)} />
             </Back>
             <Input placeholder="Search" onChange={e => setQ(e.target.value)} onKeyPress={event => {
               if (event.key === 'Enter') {
@@ -161,6 +170,7 @@ const Navbar = () => {
                 <MdOutlineVideoCall size={18} onClick={() => setOpen(true)} />
               </UploadVideo>
               <Avatar src={currentUser.img} />
+              <Avatar type="sm" src={currentUser.img} onClick={() => setOpenMenu(true)} />
               <Text> {currentUser.name} </Text>
             </User>
           ) : (<Link to="/signin" style={{ textDecoration: "none" }}>
@@ -169,6 +179,7 @@ const Navbar = () => {
         </Wrapper>
       </Container>
       {open && <Upload setOpen={setOpen} />}
+      {openMenu && <Menu darkMode={darkMode} setDarkMode={setDarkMode} setOpenMenu={setOpenMenu} type='sm' />}
     </>
   )
 }

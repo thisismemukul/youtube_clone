@@ -35,9 +35,10 @@ const Container = styled.div`
     ::-webkit-scrollbar {
         display: none;
     }
+    width: ${(props) => props.type === 'sm' && `90%`};
     @media only screen and (max-width: 700px) {
-        display: none;
-    }
+        display: ${(props) => props.type !== 'sm' && `none`};
+      }
     `;
 const Wrapper = styled.div`
   padding: ${SIZES.large}px ${SIZES.extraLarge}px;
@@ -48,6 +49,9 @@ align-items: center;
 gap: ${SPACING.xs}px;
 font-weight: bold;
 margin-bottom: ${SIZES.large}px;
+@media only screen and (max-width: 700px) {
+    display: none;
+}
     `;
 const Item = styled.div`
 display: flex;
@@ -87,12 +91,23 @@ const SubTitle = styled.h4`
 font-size: ${SIZES.small}px;
 font-weight: 500;
 `;
-const Menu = ({ darkMode, setDarkMode }) => {
+const Close = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  display: none;
+  @media only screen and (max-width: 700px) {
+      display: block;
+  }
+`;
+const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
     const { currentUser } = useSelector(state => state.user);
 
     return (
-        <Container>
+        <Container type={type}>
             <Wrapper>
+                <Close onClick={() => setOpenMenu(false)}>X</Close>
                 <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Logo>
                         <IoLogoYoutube size={24} color="#ff0000" />

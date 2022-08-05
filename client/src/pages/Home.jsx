@@ -16,6 +16,7 @@ display: flex;
 margin-top: 40px;
 gap: 10px;
 flex: 1;
+min-height: 100vh;
 color: ${({ theme }) => theme.text};
 `;
 const Home = ({ type }) => {
