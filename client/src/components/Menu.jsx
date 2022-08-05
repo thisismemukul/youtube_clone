@@ -16,10 +16,12 @@ import {
     MdOutlinedFlag,
     MdOutlineHelpOutline,
     MdOutlineSettingsBrightness,
-    MdOutlineAccountCircle
+    MdOutlineAccountCircle,
+    MdOutlineLogout
 } from "react-icons/md";
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/userSlice';
 
 const Container = styled.div`
     flex: 1;
@@ -103,7 +105,13 @@ const Close = styled.div`
 `;
 const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
     const { currentUser } = useSelector(state => state.user);
-
+    const dispatch = useDispatch();
+ 
+    const logOut = () => {
+        localStorage.removeItem('persist:root')
+        dispatch(logout());
+        document.location.href = '/signin';
+    }
     return (
         <Container type={type}>
             <Wrapper>
@@ -193,6 +201,15 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                     <MdOutlineSettingsBrightness size={18} />
                     {darkMode ? 'Light Mode' : 'Dark Mode'}
                 </Item>
+                {currentUser &&
+                    <>
+                        <Hr />
+                        <Item onClick={() => logOut()} >
+                            <MdOutlineLogout size={18} />
+                            Sign Out
+                        </Item>
+                    </>
+                }
             </Wrapper>
         </Container>
     )
