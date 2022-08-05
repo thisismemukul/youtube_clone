@@ -16,10 +16,13 @@ import {
     MdOutlinedFlag,
     MdOutlineHelpOutline,
     MdOutlineSettingsBrightness,
-    MdOutlineAccountCircle
+    MdOutlineAccountCircle,
+    MdOutlineLogout
 } from "react-icons/md";
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/userSlice';
+import axios from 'axios';
 
 const Container = styled.div`
     flex: 1;
@@ -103,7 +106,21 @@ const Close = styled.div`
 `;
 const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
     const { currentUser } = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const logOut = async () => {
+        try {
+            const response = await axios.post('/auth/signout');
+            if (response.status === 200) {
+                localStorage.removeItem('persist:root')
+                dispatch(logout());
+                navigate('/');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <Container type={type}>
             <Wrapper>
@@ -193,6 +210,15 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                     <MdOutlineSettingsBrightness size={18} />
                     {darkMode ? 'Light Mode' : 'Dark Mode'}
                 </Item>
+                {currentUser &&
+                    <>
+                        <Hr />
+                        <Item onClick={() => logOut()} >
+                            <MdOutlineLogout size={18} />
+                            Sign Out
+                        </Item>
+                    </>
+                }
             </Wrapper>
         </Container>
     )

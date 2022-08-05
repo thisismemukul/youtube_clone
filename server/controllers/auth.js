@@ -31,6 +31,14 @@ export const signin = async(req, res, next) => {
         next(err);
     }
 }
+export const signout = async(req, res, next) => {
+    try {
+        res.clearCookie('access_token', { path: '/' });
+        res.status(200).send("User logged out");
+    } catch (err) {
+        next(err);
+    }
+}
 
 
 export const googleAuth = async(req, res, next) => {
