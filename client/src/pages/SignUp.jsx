@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
-import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
+import { loginFailure, loginStart, loginSuccess, signupStart, signupSuccess, signupFailure } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     height: calc(100vh - ${SPACING.m * 6}px);
-    margin: ${SPACING.l}px 0;
+    margin: ${SPACING.s}px 0;
     color: ${({ theme }) => theme.text};
 `;
 const Wrapper = styled.div`
@@ -64,35 +64,14 @@ const LinkIt = styled.span`
   margin-left: ${SPACING.l}px;
 `;
 
-const SignIn = () => {
-    const [UnameOrEmail, setUnameOrEmail] = useState("");
+const SignUp = () => {
+    const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        function isValidEmail(email) {
-            return /\S+@\S+\.\S+/.test(email);
-        }
-        if (isValidEmail(UnameOrEmail)) {
-            setEmail(UnameOrEmail);
-        } else {
-            setUsername(UnameOrEmail);
-        }
-    }, [UnameOrEmail])
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        dispatch(loginStart());
-        try {
-            const response = username ? await axios.post('/auth/signin', { username, password }) : await axios.post('/auth/signin', { email, password });
-            dispatch(loginSuccess(response.data));
-            navigate('/');
-        } catch (error) {
-            dispatch(loginFailure());
-        }
-    }
     const signInWithGoogle = async () => {
         dispatch(loginStart());
         signInWithPopup(auth, provider)
@@ -114,18 +93,36 @@ const SignIn = () => {
                 dispatch(loginFailure());
             });
     };
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        dispatch(signupStart());
+        const img = "https://uploads.commoninja.com/searchengine/wordpress/adorable-avatars.png";
+        try {
+            const response = await axios.post('/auth/signup', { name, username, email, img, password });
+            console.log(response.status);
+            if (response.status === 201) {
+                dispatch(signupSuccess());
+                navigate('/signin');
+            }
+        } catch (error) {
+            console.log("error", error);
+            dispatch(signupFailure());
+        }
+    };
     return (
         <Container>
             <Wrapper>
-                <Title>Sign In</Title>
-                <SubTitle>to continue to YouTube</SubTitle>
-                <Input placeholder='username or email' onChange={(e) => setUnameOrEmail(e.target.value)} />
+                <Title>Sign Up</Title>
+                <SubTitle>to continue your YouTube account</SubTitle>
+                <Input placeholder='name' onChange={e => setName(e.target.value)} />
+                <Input placeholder='username' onChange={e => setUsername(e.target.value)} />
+                <Input type="email" placeholder='email' onChange={e => setEmail(e.target.value)} />
                 <Input placeholder='password' type='password' onChange={e => setPassword(e.target.value)} />
-                <Button onClick={handleLogin} >Sign In</Button>
+                <Button onClick={handleSignup}>Sign Up</Button>
                 <SubTitle>Or</SubTitle>
                 <Button onClick={signInWithGoogle} >Sign In with Google</Button>
                 <SubTitle>Or</SubTitle>
-                <Link to="/signup" style={{ textDecoration: 'none', color: 'inherit' }}>Create an account</Link>
+                <Link to="/signin" style={{ textDecoration: 'none', color: 'inherit' }}>Login to an account</Link>
             </Wrapper>
             <More>
                 English(USA)
@@ -139,4 +136,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn
+export default SignUp
