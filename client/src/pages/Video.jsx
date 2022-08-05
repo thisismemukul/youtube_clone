@@ -1,9 +1,7 @@
 import axios from 'axios';
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineThumbUp, MdOutlineThumbDown, MdOutlineReply, MdOutlineAddTask, MdThumbUp, MdThumbDown } from 'react-icons/md';
 import timeago from 'timeago.js';
-
-
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from 'styled-components';
@@ -15,9 +13,15 @@ import Recommendation from '../components/Recommendation';
 const Container = styled.div`
 display: flex;
 gap: ${SPACING.s}px;
+@media only screen and (max-width: 700px) {
+  display: block;
+  min-height: 100vh;
+}
 `;
 const Content = styled.div`
 flex: 6;
+@media only screen and (max-width: 700px) {
+}
 `;
 const VideoWrapper = styled.div``;
 const Title = styled.div`
@@ -26,19 +30,35 @@ font-weight: 400;
 margin-top: ${SPACING.s}px;
 margin-bottom: ${SPACING.xs}px;
 color: ${({ theme }) => theme.text};
+@media only screen and (max-width: 700px) {
+  padding: ${SPACING.s}px;
+}
 `;
 const Details = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
+@media only screen and (max-width: 700px) {
+  padding: ${SPACING.s}px;
+  display: block;
+}
+
 `;
 const Info = styled.span`
 color: ${({ theme }) => theme.textSoft};
+@media only screen and (max-width: 700px) {
+  margin-bottom: ${SPACING.s}px;
+  display: block;
+}
+
 `;
 const Buttons = styled.div`
 display: flex;
 gap: ${SPACING.s}px;
 color: ${({ theme }) => theme.text};
+@media only screen and (max-width: 700px) {
+  justify-content: space-between;
+}
 `;
 const Button = styled.div`
 display: flex;
@@ -55,10 +75,12 @@ const Channel = styled.div`
 display: flex;
 flex-direction: space-between;
 justify-content: space-between;
+
 `;
 const ChannelInfo = styled.div`
 display: flex;
 gap: ${SPACING.m}px;
+
 `;
 const Image = styled.img`
 width: 50px;
@@ -69,6 +91,7 @@ const ChannelDetail = styled.div`
 display: flex;
 flex-direction: column;
 color: ${({ theme }) => theme.text};
+
 `;
 const ChannelName = styled.div`
 font-weight: 500;
@@ -81,6 +104,19 @@ font-size: ${SIZES.small}px;
 `;
 const Description = styled.p`
 font-size: ${SIZES.body}px;
+@media only screen and (max-width: 700px) {
+  display: none;
+}
+`;
+const DescriptionMob = styled.p`
+max-width: 300px;
+font-size: ${SIZES.body}px;
+overflow: hidden;
+color: ${({ theme }) => theme.text};
+padding: ${SPACING.s}px;
+@media only screen and (min-width: 700px) {
+  display: none;
+}
 `;
 const Subscribe = styled.button`
 background-color: ${COLORS.error};
@@ -117,20 +153,20 @@ const Video = () => {
         );
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
-      } catch (err) {}
+      } catch (err) { }
     };
     fetchData();
   }, [path, dispatch]);
   const handleLike = async () => {
     await axios.put(`/users/like/${currentVideo._id}`);
-    dispatch(like(currentUser._id));
+    dispatch(like(currentUser?._id));
   };
   const handleDislike = async () => {
     await axios.put(`/users/dislike/${currentVideo._id}`);
-    dispatch(dislike(currentUser._id));
+    dispatch(dislike(currentUser?._id));
   };
   const handleSub = async () => {
-    currentUser.subscribedUsers.includes(channel._id)
+    currentUser?.subscribedUsers.includes(channel._id)
       ? await axios.put(`/users/unsub/${channel._id}`)
       : await axios.put(`/users/sub/${channel._id}`);
     dispatch(subscription(channel._id));
@@ -145,7 +181,7 @@ const Video = () => {
         <Details>
           <Info>{currentVideo?.views} views • {timeagoInstance.format(currentVideo?.createdAt)}</Info>
           <Buttons>
-          <Button onClick={handleLike}>
+            <Button onClick={handleLike}>
               {currentVideo?.likes?.includes(currentUser?._id) ? (
                 <MdThumbUp />
               ) : (
@@ -153,7 +189,7 @@ const Video = () => {
               )}{" "}
               {currentVideo?.likes?.length}
             </Button>
-          <Button onClick={handleDislike}>
+            <Button onClick={handleDislike}>
               {currentVideo?.dislikes?.includes(currentUser?._id) ? (
                 <MdThumbDown />
               ) : (
@@ -165,18 +201,19 @@ const Video = () => {
             <Button><MdOutlineAddTask />Save</Button>
           </Buttons>
         </Details>
+              <DescriptionMob>{currentVideo?.desc}</DescriptionMob>
         <Hr />
         <Channel>
           <ChannelInfo>
             <Image src={channel.img} />
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
-              <ChannelCounter>{channel.subscribers}</ChannelCounter>
+              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSub}>
-            {currentUser.subscribedUsers?.includes(channel._id)
+            {currentUser?.subscribedUsers?.includes(channel._id)
               ? "SUBSCRIBED"
               : "SUBSCRIBE"}
           </Subscribe>
@@ -184,7 +221,7 @@ const Video = () => {
         <Hr />
         <Comments videoId={currentVideo?._id} />
       </Content>
-     <Recommendation tags={currentVideo?.tags} />
+      <Recommendation tags={currentVideo?.tags} />
     </Container>
   )
 }

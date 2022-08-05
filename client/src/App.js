@@ -30,7 +30,7 @@ const App = () => {
         <BrowserRouter>
           <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
           <Main>
-            <Navbar />
+            <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
             <Wrapper>
               <Routes>
                 <Route path="/">

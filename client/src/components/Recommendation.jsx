@@ -1,10 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { SPACING } from "../constants";
 import Card from "./Card";
 
 const Container = styled.div`
   flex: 2;
+  @media only screen and (max-width: 700px) {
+    display: block;
+  margin-top: ${SPACING.l}px;
+      }
 `;
 
 const Recommendation = ({ tags }) => {

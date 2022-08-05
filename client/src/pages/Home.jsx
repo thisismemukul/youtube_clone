@@ -7,12 +7,16 @@ const Container = styled.div`
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
+@media only screen and (max-width: 700px) {
+    justify-content: center;
+}
 `;
 const Details = styled.div`
 display: flex;
 margin-top: 40px;
 gap: 10px;
 flex: 1;
+min-height: 100vh;
 color: ${({ theme }) => theme.text};
 `;
 const Home = ({ type }) => {
