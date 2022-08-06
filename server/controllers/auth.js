@@ -12,7 +12,7 @@ export const signup = async(req, res, next) => {
         await newUser.save();
         res.status(201).json({ message: "User created successfully" });
     } catch (err) {
-        next(err);
+        err.message.includes("username") ? err.message.includes("shorter") ? next(createError(404, "Username should be 3 char long")) : next(createError(404, "Username already exists")) : next(createError(404, "Email is taken"))
     }
 }
 export const signin = async(req, res, next) => {

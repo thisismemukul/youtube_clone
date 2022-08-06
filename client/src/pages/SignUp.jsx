@@ -1,12 +1,13 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
-import { loginFailure, loginStart, loginSuccess, signupStart, signupSuccess, signupFailure } from '../redux/userSlice';
+import { signupStart, signupSuccess, signupFailure } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import ToastNotification from '../components/ToastNotification';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -71,9 +72,21 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { error } = useSelector(state => state.user);
+    console.log(error);
+    useEffect(() => {
+        if (error === '') {
+            dispatch(signupFailure(''));
+        }
+    }, [error, dispatch]);
+
+
+    function isValidEmail(email) {
+        return /\S+@\S+\.\S+/.test(email);
+    }
 
     const signInWithGoogle = async () => {
-        dispatch(loginStart());
+        dispatch(signupStart());
         signInWithPopup(auth, provider)
             .then((result) => {
                 const username = result.user.displayName.split(" ").join("").toLowerCase() + Math.floor(Math.random() * 90 + 10);
@@ -84,40 +97,51 @@ const SignUp = () => {
                     img: result.user.photoURL,
                 })
                     .then((res) => {
-                        dispatch(loginSuccess(res.data));
+                        dispatch(signupSuccess(res.data));
                         console.log(res.data);
                         navigate('/');
                     });
             })
             .catch((error) => {
-                dispatch(loginFailure());
+                dispatch(signupFailure(error.response.data.message));
             });
     };
+
     const handleSignup = async (e) => {
         e.preventDefault();
-        dispatch(signupStart());
-        const img = "https://uploads.commoninja.com/searchengine/wordpress/adorable-avatars.png";
-        try {
-            const response = await axios.post('/auth/signup', { name, username, email, img, password });
-            console.log(response.status);
-            if (response.status === 201) {
-                dispatch(signupSuccess());
-                navigate('/signin');
+        if (name && username && email && password) {
+            if (isValidEmail(email)) {
+                setEmail(email);
+                const img = "https://uploads.commoninja.com/searchengine/wordpress/adorable-avatars.png";
+                try {
+                    const response = await axios.post('/auth/signup', { name, username, email, img, password });
+                    console.log("response", response.status);
+                    if (response.status === 201) {
+                        dispatch(signupSuccess());
+                        navigate('/signin');
+                    }
+                } catch (error) {
+                    console.log(error.response.data);
+                    dispatch(signupFailure(error.response.data.message));
+                }
+            } else {
+                dispatch(signupFailure('Please Provide a valid email'));
             }
-        } catch (error) {
-            console.log("error", error);
-            dispatch(signupFailure());
+
+        } else {
+            dispatch(signupFailure("Please fill all the fields"));
         }
     };
     return (
         <Container>
+            {error && <ToastNotification message={error} />}
             <Wrapper>
                 <Title>Sign Up</Title>
                 <SubTitle>to continue your YouTube account</SubTitle>
-                <Input placeholder='name' onChange={e => setName(e.target.value)} />
-                <Input placeholder='username' onChange={e => setUsername(e.target.value)} />
-                <Input type="email" placeholder='email' onChange={e => setEmail(e.target.value)} />
-                <Input placeholder='password' type='password' onChange={e => setPassword(e.target.value)} />
+                <Input placeholder='name' onChange={e => { setName(e.target.value); dispatch(signupFailure('')); }} />
+                <Input placeholder='username' onChange={e => { setUsername(e.target.value); dispatch(signupFailure('')); }} />
+                <Input type="email" placeholder='email' onChange={e => { setEmail(e.target.value); dispatch(signupFailure('')); }} />
+                <Input placeholder='password' type='password' onChange={e => { setPassword(e.target.value); dispatch(signupFailure('')); }} />
                 <Button onClick={handleSignup}>Sign Up</Button>
                 <SubTitle>Or</SubTitle>
                 <Button onClick={signInWithGoogle} >Sign In with Google</Button>
