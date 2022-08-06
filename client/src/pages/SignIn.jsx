@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
 import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import ToastNotification from '../components/ToastNotification';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -71,8 +72,11 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const { error } = useSelector(state => state.user);
     useEffect(() => {
+        if(error==='') {
+            dispatch(loginFailure(''));
+        }
         function isValidEmail(email) {
             return /\S+@\S+\.\S+/.test(email);
         }
@@ -81,16 +85,17 @@ const SignIn = () => {
         } else {
             setUsername(UnameOrEmail);
         }
-    }, [UnameOrEmail])
+    }, [error,dispatch,UnameOrEmail])
     const handleLogin = async (e) => {
         e.preventDefault();
         dispatch(loginStart());
         try {
             const response = username ? await axios.post('/auth/signin', { username, password }) : await axios.post('/auth/signin', { email, password });
             dispatch(loginSuccess(response.data));
+            dispatch(loginFailure(null));
             navigate('/');
         } catch (error) {
-            dispatch(loginFailure());
+            dispatch(loginFailure(error.response.data.message));
         }
     }
     const signInWithGoogle = async () => {
@@ -106,21 +111,21 @@ const SignIn = () => {
                 })
                     .then((res) => {
                         dispatch(loginSuccess(res.data));
-                        console.log(res.data);
                         navigate('/');
                     });
             })
             .catch((error) => {
-                dispatch(loginFailure());
+                dispatch(loginFailure(error.response.data.message));
             });
     };
     return (
         <Container>
+            {error ==='' ? null : <ToastNotification message={error} />}
             <Wrapper>
                 <Title>Sign In</Title>
                 <SubTitle>to continue to YouTube</SubTitle>
-                <Input placeholder='username or email' onChange={(e) => setUnameOrEmail(e.target.value)} />
-                <Input placeholder='password' type='password' onChange={e => setPassword(e.target.value)} />
+                <Input placeholder='username or email' onChange={(e) => { setUnameOrEmail(e.target.value); dispatch(loginFailure('')); }} />
+                <Input placeholder='password' type='password' onChange={e => { setPassword(e.target.value); dispatch(loginFailure('')); }} />
                 <Button onClick={handleLogin} >Sign In</Button>
                 <SubTitle>Or</SubTitle>
                 <Button onClick={signInWithGoogle} >Sign In with Google</Button>
