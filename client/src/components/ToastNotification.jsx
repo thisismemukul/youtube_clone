@@ -7,6 +7,7 @@ display: flex;
 width: 100%;
 margin-bottom: ${SPACING.xl}px;
 background-color: red;
+color: white;
 `;
 
 
