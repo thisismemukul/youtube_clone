@@ -29,11 +29,29 @@ padding: ${SPACING.xs}px;
 width: 100%;
 `;
 
+const Buttons = styled.div`
+display: flex;
+gap: ${SPACING.s}px;
+color: ${({ theme }) => theme.text};
+@media only screen and (max-width: 700px) {
+  justify-content: space-between;
+}
+`;
+
+const Button = styled.button`
+border-radius: ${SPACING.xs}px;
+border:none;
+padding: ${SPACING.s}px  ${SPACING.l}px;
+font-weight: 500;
+cursor: pointer;
+background-color: ${({ theme }) => theme.soft};
+color: ${({ theme }) => theme.textSoft};
+`;
 const Comments = ({ videoId }) => {
 
   const { currentUser } = useSelector((state) => state.user);
-
   const [comments, setComments] = useState([]);
+  const [desc, setDesc] = useState('');
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -43,6 +61,15 @@ const Comments = ({ videoId }) => {
     };
     fetchComments();
   }, [videoId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('/comments', { desc, videoId });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <Container>
       <NewComment>
@@ -51,7 +78,10 @@ const Comments = ({ videoId }) => {
         ) : (
           <Avatar src="https://i.pravatar.cc/150?img=3" />
         )}
-        <Input placeholder="Write a comment..." />
+        <Input placeholder="Write a comment..." onChange={(e) => setDesc(e.target.value)} />
+        <Buttons>
+          <Button onClick={handleSubmit}>Comment</Button>
+        </Buttons>
       </NewComment>
       {comments.map(comment => (
         <Comment key={comment._id} comment={comment} />
