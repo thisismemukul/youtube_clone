@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MdOutlineDelete } from "react-icons/md";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -43,6 +44,8 @@ font-size: 14px;
 
 
 const Comment = ({ comment }) => {
+  const { currentUser } = useSelector((state) => state.user);
+
   const [channel, setChannel] = useState({});
 
   useEffect(() => {
@@ -69,9 +72,11 @@ const Comment = ({ comment }) => {
         </Name>
         <Text>{comment.desc}</Text>
       </Details>
+      {currentUser && currentUser._id === comment.userId ? (
       <ShowMore onClick={handleDelete}>
         <MdOutlineDelete />
-      </ShowMore>
+      </ShowMore>)
+      : null}
     </Container>
   );
 };
