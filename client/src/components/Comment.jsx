@@ -1,11 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { MdOutlineDelete } from "react-icons/md";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
   gap: 10px;
   margin: 30px 0px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Avatar = styled.img`
@@ -21,22 +24,28 @@ const Details = styled.div`
   color: ${({ theme }) => theme.text};
 `;
 const Name = styled.span`
-  font-size: 13px;
-  font-weight: 500;
+font-size: 13px;
+font-weight: 500;
 `;
 
 const Date = styled.span`
-  font-size: 12px;
-  font-weight: 400;
-  color: ${({ theme }) => theme.textSoft};
-  margin-left: 5px;
+font-size: 12px;
+font-weight: 400;
+color: ${({ theme }) => theme.textSoft};
+margin-left: 5px;
+`;
+const ShowMore = styled.span`
+cursor: pointer;
+padding: 0 10px;
+`;
+const Text = styled.span`
+font-size: 14px;
 `;
 
-const Text = styled.span`
-  font-size: 14px;
-`;
 
 const Comment = ({ comment }) => {
+  const { currentUser } = useSelector((state) => state.user);
+
   const [channel, setChannel] = useState({});
 
   useEffect(() => {
@@ -46,7 +55,14 @@ const Comment = ({ comment }) => {
     };
     fetchComment();
   }, [comment.userId]);
-
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.delete(`/comments/${comment._id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <Container>
       <Avatar src={channel.img} />
@@ -56,6 +72,11 @@ const Comment = ({ comment }) => {
         </Name>
         <Text>{comment.desc}</Text>
       </Details>
+      {currentUser && currentUser._id === comment.userId ? (
+      <ShowMore onClick={handleDelete}>
+        <MdOutlineDelete />
+      </ShowMore>)
+      : null}
     </Container>
   );
 };
