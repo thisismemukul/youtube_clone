@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { SPACING } from '../constants';
+import { fetchComments } from '../helper';
 import Comment from './Comment';
 const Container = styled.div`
 `;
@@ -53,19 +54,15 @@ const Comments = ({ videoId }) => {
   const [comments, setComments] = useState([]);
   const [desc, setDesc] = useState('');
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await axios.get(`/comments/${videoId}`);
-        setComments(res.data);
-      } catch (err) { }
-    };
-    fetchComments();
-  }, [videoId]);
+    fetchComments(videoId,setComments);
+  }, [videoId,setComments]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post('/comments', { desc, videoId });
+      setDesc('');
+      fetchComments(videoId,setComments);
     } catch (error) {
       console.log(error);
     }
@@ -78,13 +75,13 @@ const Comments = ({ videoId }) => {
         ) : (
           <Avatar src="https://i.pravatar.cc/150?img=3" />
         )}
-        <Input placeholder="Write a comment..." onChange={(e) => setDesc(e.target.value)} />
+        <Input placeholder="Write a comment..." value={desc} onChange={(e) => setDesc(e.target.value)} />
         <Buttons>
           <Button onClick={handleSubmit}>Comment</Button>
         </Buttons>
       </NewComment>
       {comments.map(comment => (
-        <Comment key={comment._id} comment={comment} />
+        <Comment key={comment._id} comment={comment} videoId={videoId} setComments={setComments} />
       ))}
     </Container>
   )

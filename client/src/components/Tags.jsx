@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 
 const Tag = styled.span`
-// background-color: blue;//REMOVE
     margin-right: 1rem;
     padding: 0.5rem;
     margin-bottom: 0.5rem;

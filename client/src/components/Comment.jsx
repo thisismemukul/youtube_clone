@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { fetchComments } from "../helper";
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +44,7 @@ font-size: 14px;
 `;
 
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment,videoId,setComments }) => {
   const { currentUser } = useSelector((state) => state.user);
 
   const [channel, setChannel] = useState({});
@@ -59,6 +60,7 @@ const Comment = ({ comment }) => {
     e.preventDefault();
     try {
       await axios.delete(`/comments/${comment._id}`);
+      fetchComments(videoId,setComments);
     } catch (error) {
       console.log(error);
     }

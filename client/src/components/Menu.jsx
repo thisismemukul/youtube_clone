@@ -38,7 +38,7 @@ const Container = styled.div`
     ::-webkit-scrollbar {
         display: none;
     }
-    width: ${(props) => props.type === 'sm' && `90%`};
+    width: ${(props) => props.type === 'sm' && `65%`};
     @media only screen and (max-width: 700px) {
         display: ${(props) => props.type !== 'sm' && `none`};
       }
@@ -132,10 +132,10 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                     </Logo>
                 </Link>
                 <Link to="/" style={{ textDecoration: "none", color: 'inherit' }}>
-                <Item>
-                    <IoHomeSharp size={18} />
-                    Home
-                </Item>
+                    <Item>
+                        <IoHomeSharp size={18} />
+                        Home
+                    </Item>
                 </Link>
                 <Link to="trending" style={{ textDecoration: "none", color: 'inherit' }}>
                     <Item>
@@ -196,10 +196,12 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                     Live
                 </Item>
                 <Hr />
-                <Item>
-                    <MdOutlineSettings size={18} />
-                    Settings
-                </Item>
+                <Link to="account" style={{ textDecoration: "none" ,color: 'inherit' }}>
+                    <Item>
+                        <MdOutlineSettings size={18} />
+                        Settings
+                    </Item>
+                </Link>
                 <Item>
                     <MdOutlinedFlag size={18} />
                     Report

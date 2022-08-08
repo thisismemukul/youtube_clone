@@ -148,6 +148,9 @@ const Video = () => {
     const fetchData = async () => {
       try {
         const videoRes = await axios.get(`/videos/find/${path}`);
+        if (videoRes.data) {
+          await axios.put(`/videos/view/${path}`);
+        }
         const channelRes = await axios.get(
           `/users/find/${videoRes.data.userId}`
         );
@@ -156,6 +159,7 @@ const Video = () => {
       } catch (err) { }
     };
     fetchData();
+    // incView();
   }, [path, dispatch]);
   const handleLike = async () => {
     await axios.put(`/users/like/${currentVideo._id}`);
