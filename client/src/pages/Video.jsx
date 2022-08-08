@@ -197,11 +197,11 @@ const Video = () => {
               )}{" "}
               Dislike
             </Button>
-            <Button><MdOutlineReply />Share</Button>
+            <Button><MdOutlineReply /> Share </Button>
             <Button><MdOutlineAddTask />Save</Button>
           </Buttons>
         </Details>
-              <DescriptionMob>{currentVideo?.desc}</DescriptionMob>
+        <DescriptionMob>{currentVideo?.desc}</DescriptionMob>
         <Hr />
         <Channel>
           <ChannelInfo>

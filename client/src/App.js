@@ -15,6 +15,7 @@ import Search from './pages/Search';
 import SignUp from './pages/SignUp';
 const Container = styled.div`
 display: flex;
+background-color:${({ theme }) => theme.bg};
 `;
 const Main = styled.div`
   flex: 7;
@@ -22,6 +23,7 @@ const Main = styled.div`
   `;
 const Wrapper = styled.div`
 padding: 22px 16px;
+min-height: 100vh;
 `;
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
