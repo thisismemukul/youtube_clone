@@ -22,6 +22,7 @@ const Main = styled.div`
   `;
 const Wrapper = styled.div`
 padding: 22px 16px;
+min-height: 100vh;
 `;
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);

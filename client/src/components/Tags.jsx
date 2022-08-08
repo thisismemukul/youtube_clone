@@ -26,14 +26,19 @@ const Tag = styled.span`
         margin: 10px 1px;
     }
 `;
-const Tags = ({ tags }) => {
+const Tags = ({ tags, setVideos }) => {
     const [activeElement, setActiveElement] = useState('All')
     const handleClick = async (tag) => {
         setActiveElement(tag)
-        try {
-            const res = await axios.get(`/videos/tags?tags=${tag}`);
-            console.log(res.data)
-        } catch (err) { }
+        if (tag === 'All') {
+            setVideos(await axios.get(`/videos/random`).then(res => res.data))
+        } else {
+
+            try {
+                const res = await axios.get(`/videos/tags?tags=${tag}`);
+                setVideos(res.data);
+            } catch (err) { }
+        }
     }
     return (
         tags.map((tag, index) => {

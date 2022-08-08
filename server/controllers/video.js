@@ -87,6 +87,15 @@ export const sub = async(req, res, next) => {
         next(err);
     }
 }
+export const getAllTags = async(req, res, next) => {
+    try {
+        const tags = await Video.distinct('tags')
+        tags.splice(0, 0, 'All')
+        res.status(200).json(tags);
+    } catch (err) {
+        next(err);
+    }
+}
 export const getByTag = async(req, res, next) => {
     const tags = req.query.tags.split(",");
     try {
