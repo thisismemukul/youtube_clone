@@ -131,10 +131,12 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                         <span>Youtube</span>
                     </Logo>
                 </Link>
+                <Link to="/" style={{ textDecoration: "none", color: 'inherit' }}>
                 <Item>
                     <IoHomeSharp size={18} />
                     Home
                 </Item>
+                </Link>
                 <Link to="trending" style={{ textDecoration: "none", color: 'inherit' }}>
                     <Item>
                         <IoCompassOutline size={18} />

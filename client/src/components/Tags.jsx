@@ -10,7 +10,7 @@ const Tag = styled.span`
     min-width: 4.2rem;
     text-align: center;
     white-space: nowrap;
-    border: 1.5px solid #fff;
+    border: 1.5px solid  ${({ theme }) => theme.text};
     border-radius: 999px;
     cursor: pointer;
     &:hover {
@@ -18,9 +18,9 @@ const Tag = styled.span`
     }
 
     &.active {
-       color: #fff;
-       background-color: #606060;
-       border-color: #fff;
+       color:  ${({ theme }) => theme.text};
+       background-color:${({ theme }) => theme.soft};
+       border-color: ${({ theme }) => theme.text};
     }
     @media only screen and (max-width: 700px) {
         margin: 10px 1px;

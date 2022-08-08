@@ -15,6 +15,7 @@ import Search from './pages/Search';
 import SignUp from './pages/SignUp';
 const Container = styled.div`
 display: flex;
+background-color:${({ theme }) => theme.bg};
 `;
 const Main = styled.div`
   flex: 7;
