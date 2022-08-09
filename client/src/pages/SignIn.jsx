@@ -82,14 +82,17 @@ const SignIn = () => {
         }
         if (isValidEmail(UnameOrEmail)) {
             setEmail(UnameOrEmail);
+            setUsername('');
         } else {
             setUsername(UnameOrEmail);
+            setEmail('');
         }
     }, [error,dispatch,UnameOrEmail])
     const handleLogin = async (e) => {
         e.preventDefault();
         dispatch(loginStart());
         try {
+            console.log(username);
             const response = username ? await axios.post('/auth/signin', { username, password }) : await axios.post('/auth/signin', { email, password });
             dispatch(loginSuccess(response.data));
             dispatch(loginFailure(null));

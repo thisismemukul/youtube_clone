@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { fetchAllSuccess } from '../redux/videosSlice';
 
 const Tag = styled.span`
     margin-right: 1rem;
@@ -13,6 +15,7 @@ const Tag = styled.span`
     border-radius: 999px;
     cursor: pointer;
     &:hover {
+        color: #fff;
        background-color: #374a59;
     }
 
@@ -25,17 +28,19 @@ const Tag = styled.span`
         margin: 10px 1px;
     }
 `;
-const Tags = ({ tags, setVideos }) => {
+const Tags = ({ tags }) => {
+    const dispatch = useDispatch();
+
     const [activeElement, setActiveElement] = useState('All')
     const handleClick = async (tag) => {
         setActiveElement(tag)
         if (tag === 'All') {
-            setVideos(await axios.get(`/videos/random`).then(res => res.data))
+            dispatch(fetchAllSuccess(await axios.get(`/videos/random`).then(res => res.data)))
         } else {
 
             try {
                 const res = await axios.get(`/videos/tags?tags=${tag}`);
-                setVideos(res.data);
+                dispatch(fetchAllSuccess(res.data));
             } catch (err) { }
         }
     }
