@@ -5,12 +5,13 @@ import Video from "../models/Video.js";
 export const updateUser = async(req, res, next) => {
     if (req.params.id === req.user.id) {
         try {
+            if (req.body.username.length < 3) return next(createError(404, "Username should be 3 char long"));
             const updatedUser = await User.findByIdAndUpdate(req.params.id, {
                 $set: req.body
             }, { new: true, useFindAndModify: false })
             res.status(200).json(updatedUser);
         } catch (error) {
-
+            error.message.includes("username") ? next(createError(404, "Username already exists")) : next(createError(404, "Something went wrong"))
         }
     } else {
         return next(createError(403, 'You are not authorized to update this user'));
@@ -22,7 +23,7 @@ export const deleteUser = async(req, res, next) => {
             await User.findByIdAndDelete(req.params.id)
             res.status(200).json("User has been deleted");
         } catch (error) {
-
+            next(error);
         }
     } else {
         return next(createError(403, 'You are not authorized to delete this user'));

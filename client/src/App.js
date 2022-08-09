@@ -13,6 +13,8 @@ import Video from './pages/Video';
 import SignIn from './pages/SignIn';
 import Search from './pages/Search';
 import SignUp from './pages/SignUp';
+import Account from './pages/Account';
+import { useSelector } from 'react-redux';
 const Container = styled.div`
 display: flex;
 background-color:${({ theme }) => theme.bg};
@@ -27,6 +29,7 @@ min-height: 100vh;
 `;
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
+  const { currentUser } = useSelector(state => state.user);
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
@@ -43,6 +46,7 @@ const App = () => {
                   <Route path="search" element={<Search />} />
                   <Route path="signin" element={<SignIn />} />
                   <Route path="signup" element={<SignUp />} />
+                  {currentUser ? <Route path="account" element={<Account currentUser={currentUser} />} /> : <Route path="account" element={<SignIn />} />}
                   <Route path="video">
                     <Route path=":id" element={<Video />} />
                   </Route>

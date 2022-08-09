@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SPACING, SIZES } from '../constants';
-import { IoLogoYoutube, IoHomeSharp, IoCompassOutline } from "react-icons/io5";
+import { IoLogoYoutube, IoLogoGithub, IoHomeSharp, IoCompassOutline } from "react-icons/io5";
 import {
     MdOutlineSubscriptions,
-    MdOutlineVideoLibrary,
-    MdHistory,
+    MdOutlineCode,
     MdOutlineLibraryMusic,
     MdOutlineSportsBasketball,
     MdOutlineSportsEsports,
@@ -17,12 +16,14 @@ import {
     MdOutlineHelpOutline,
     MdOutlineSettingsBrightness,
     MdOutlineAccountCircle,
-    MdOutlineLogout
+    MdOutlineLogout,
+    MdOutlineAllInbox
 } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/userSlice';
 import axios from 'axios';
+import { fetchAllFailure, fetchAllSuccess } from '../redux/videosSlice';
 
 const Container = styled.div`
     flex: 1;
@@ -38,7 +39,7 @@ const Container = styled.div`
     ::-webkit-scrollbar {
         display: none;
     }
-    width: ${(props) => props.type === 'sm' && `90%`};
+    width: ${(props) => props.type === 'sm' && `65%`};
     @media only screen and (max-width: 700px) {
         display: ${(props) => props.type !== 'sm' && `none`};
       }
@@ -64,6 +65,11 @@ cursor: pointer;
 padding: ${SIZES.font / 2}px 0;
 &:hover {
     background-color: ${({ theme }) => theme.soft};
+}
+&.active {
+   color:  ${({ theme }) => theme.text};
+   background-color:${({ theme }) => theme.soft};
+   border-color: ${({ theme }) => theme.text};
 }
     `;
 const Hr = styled.hr`
@@ -108,7 +114,7 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
     const { currentUser } = useSelector(state => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const [activeElement, setActiveElement] = useState('All')
     const logOut = async () => {
         try {
             const response = await axios.post('/auth/signout');
@@ -119,6 +125,23 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    const handleClick = async (tag) => {
+        setActiveElement(tag)
+        if (tag === 'All') {
+            dispatch(fetchAllSuccess(await axios.get(`/videos/random`).then(res => res.data)))
+        } else {
+            try {
+                const res = await axios.get(`/videos/tags?tags=${tag}`);
+                if (res.data.length > 0) {
+                    dispatch(fetchAllSuccess(res.data));
+                } else {
+                    dispatch(fetchAllFailure("No videos found"));
+                    alert("No videos found")
+                }
+            } catch (err) { }
         }
     }
     return (
@@ -132,10 +155,10 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                     </Logo>
                 </Link>
                 <Link to="/" style={{ textDecoration: "none", color: 'inherit' }}>
-                <Item>
-                    <IoHomeSharp size={18} />
-                    Home
-                </Item>
+                    <Item>
+                        <IoHomeSharp size={18} />
+                        Home
+                    </Item>
                 </Link>
                 <Link to="trending" style={{ textDecoration: "none", color: 'inherit' }}>
                     <Item>
@@ -150,14 +173,24 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                     </Item>
                 </Link>
                 <Hr />
-                <Item>
-                    <MdOutlineVideoLibrary size={18} />
-                    Library
-                </Item>
-                <Item>
-                    <MdHistory size={18} />
-                    History
-                </Item>
+                <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href='https://thisismemukul.netlify.app' style={{ textDecoration: "none", color: 'inherit' }}>
+                    <Item>
+                        <MdOutlineCode size={18} />
+                        Hi Developer
+                    </Item>
+                </a>
+                <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href='https://www.github.com/thisismemukul' style={{ textDecoration: "none", color: 'inherit' }}>
+                    <Item>
+                        <IoLogoGithub size={18} />
+                        My Github
+                    </Item>
+                </a>
                 <Hr />
                 {!currentUser &&
                     <>
@@ -171,35 +204,25 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                     </>
                 }
                 <Title>More from YouTube</Title>
-                <Item>
-                    <MdOutlineLibraryMusic size={18} />
-                    Music
-                </Item>
-                <Item>
-                    <MdOutlineSportsBasketball size={18} />
-                    Sports
-                </Item>
-                <Item>
-                    <MdOutlineSportsEsports size={18} />
-                    Gaming
-                </Item>
-                <Item>
-                    <MdOutlineMovie size={18} />
-                    Movies
-                </Item>
-                <Item>
-                    <MdOutlineArticle size={18} />
-                    News
-                </Item>
-                <Item>
-                    <MdOutlineLiveTv size={18} />
-                    Live
-                </Item>
+                {[
+                    { 'name': 'All', 'icon': <MdOutlineAllInbox size={18} /> },
+                    { 'name': 'Music', 'icon': <MdOutlineLibraryMusic size={18} /> },
+                    { 'name': 'Sports', 'icon': <MdOutlineSportsBasketball size={18} /> },
+                    { 'name': 'Gaming', 'icon': <MdOutlineSportsEsports size={18} /> },
+                    { 'name': 'Movies', 'icon': <MdOutlineMovie size={18} /> },
+                    { 'name': 'News', 'icon': <MdOutlineArticle size={18} /> },
+                    { 'name': 'Live', 'icon': <MdOutlineLiveTv size={18} /> }].map((tag, index) => {
+                        return (
+                            <Item onClick={() => handleClick(tag.name)} className={activeElement === tag.name ? 'active' : ''} key={index}>{tag.icon}{tag.name}</Item>
+                        )
+                    })}
                 <Hr />
-                <Item>
-                    <MdOutlineSettings size={18} />
-                    Settings
-                </Item>
+                <Link to="account" style={{ textDecoration: "none", color: 'inherit' }}>
+                    <Item>
+                        <MdOutlineSettings size={18} />
+                        Settings
+                    </Item>
+                </Link>
                 <Item>
                     <MdOutlinedFlag size={18} />
                     Report
