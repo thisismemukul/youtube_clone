@@ -6,7 +6,7 @@ const Container = styled.div`
 display: flex;
 width: 100%;
 margin-bottom: ${SPACING.xl}px;
-background-color: red;
+background-color:  ${(props) => props.type === 'error' ? `red` : `#00ff00`};
 color: white;
 `;
 
@@ -32,10 +32,10 @@ font-weight: 500;
 color: ${({ theme }) => theme.text};
 `;
 
-const ToastNotification = ({message}) => {
+const ToastNotification = ({ type, message }) => {
     return (
         <>
-            <Container>
+            <Container type={type}>
                 <Details>
                     <Texts>
                         <Title>{message}</Title>

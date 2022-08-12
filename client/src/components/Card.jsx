@@ -10,7 +10,7 @@ import LoadingComp from './LoadingComp';
 
 const Container = styled.div`
 display: ${(props) => props.type === 'sm' && 'flex'};
-width: ${(props) => props.type === 'sm' ? `200px` : `300px`};
+width: ${(props) => props.type === 'sm' ? `100%` : `300px`};
 margin-bottom: ${(props) => props.type === 'sm' ? `${SPACING.s}px` : `${SPACING.xl}px`};
 cursor: pointer;
 gap: ${SPACING.s}px;
@@ -24,7 +24,7 @@ gap: ${SPACING.s}px;
 `;
 const Image = styled.img`
 width: 100%;
-height:  ${(props) => props.type === 'sm' ? `140px` : `170px`};
+height:  ${(props) => props.type === 'sm' ? `100px` : `170px`};
 background-color: #999;
 flex: 1;
 @media only screen and (max-width: 700px) {

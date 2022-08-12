@@ -177,7 +177,7 @@ const Account = ({ currentUser }) => {
                             </Texts>
                         </Details>
                         <FormData>
-                        {error ==='' ? null : <ToastNotification message={error} />}
+                        {error && <ToastNotification message={error} />}
                             <SubTitle>Name</SubTitle>
                             <Input placeholder='name' value={inputs.name} name='name' onChange={handleChange} />
 

@@ -73,6 +73,7 @@ const SignUp = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { error } = useSelector(state => state.user);
+    const [msg , setMsg] = useState('');
     console.log(error);
     useEffect(() => {
         if (error === '') {
@@ -115,10 +116,10 @@ const SignUp = () => {
                 const img = "https://uploads.commoninja.com/searchengine/wordpress/adorable-avatars.png";
                 try {
                     const response = await axios.post('/auth/signup', { name, username, email, img, password });
-                    console.log("response", response.status);
                     if (response.status === 201) {
-                        dispatch(signupSuccess());
-                        navigate('/signin');
+                        setMsg(response.data.message);
+                        // dispatch(signupSuccess());
+                        // navigate('/signin');
                     }
                 } catch (error) {
                     console.log(error.response.data);
@@ -134,7 +135,8 @@ const SignUp = () => {
     };
     return (
         <Container>
-            {error && <ToastNotification message={error} />}
+            {error && <ToastNotification  type="error"   message={error} />}
+            {msg && <ToastNotification type="success"  message={msg} />}
             <Wrapper>
                 <Title>Sign Up</Title>
                 <SubTitle>to continue your YouTube account</SubTitle>
