@@ -4,14 +4,27 @@ import bcrypt from "bcryptjs";
 import { createError } from "../error.js";
 import jwt from "jsonwebtoken";
 
+import Token from "../models/Emailtoken.js";
+import sendEmail from "../utils/sendEmail.js";
+import crypto from "crypto";
 export const signup = async(req, res, next) => {
     try {
         var salt = bcrypt.genSaltSync(10);
         var hash = bcrypt.hashSync(req.body.password, salt);
-        const newUser = await User({...req.body, password: hash });
-        await newUser.save();
-        res.status(201).json({ message: "User created successfully" });
+        let newUser = await User({...req.body, password: hash });
+        newUser = await newUser.save();
+
+        const token = await new Token({
+            userId: newUser._id,
+            token: crypto.randomBytes(32).toString("hex"),
+        }).save();
+        const url = `${process.env.BASE_URL}users/${newUser.id}/verify/${token.token}`;
+        await sendEmail(newUser.email, "Verify Email", url);
+        res.status(201).send({ message: "User created successfully. An Email sent to your account please verify" });
+
+
     } catch (err) {
+        console.log(err);
         err.message.includes("username") ? err.message.includes("shorter") ? next(createError(404, "Username should be 3 char long")) : next(createError(404, "Username already exists")) : next(createError(404, "Email is taken"))
     }
 }

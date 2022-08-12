@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const EmailtokenSchema = new mongoose.Schema({
     userId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "User"
     },
