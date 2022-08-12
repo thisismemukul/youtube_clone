@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { MdOutlineThumbUp, MdOutlineThumbDown, MdOutlineReply, MdOutlineAddTask, MdThumbUp, MdThumbDown } from 'react-icons/md';
 import timeago from 'timeago.js';
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import Comments from '../components/Comments';
 import { SPACING, SIZES, COLORS } from '../constants';
@@ -216,11 +216,22 @@ const Video = () => {
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe onClick={handleSub}>
-            {currentUser?.subscribedUsers?.includes(channel._id)
-              ? "SUBSCRIBED"
-              : "SUBSCRIBE"}
-          </Subscribe>
+          {currentUser ? (
+            <Subscribe onClick={handleSub}>
+              {currentUser?.subscribedUsers?.includes(channel._id)
+                ? "SUBSCRIBED"
+                : "SUBSCRIBE"}
+            </Subscribe>
+          ) : (
+            <Link to="/signin" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Subscribe>
+                {currentUser?.subscribedUsers?.includes(channel._id)
+                  ? "SUBSCRIBED"
+                  : "SUBSCRIBE"}
+              </Subscribe>
+            </Link>
+          )}
+
         </Channel>
         <Hr />
         <Comments videoId={currentVideo?._id} />

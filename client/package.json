@@ -44,5 +44,5 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "http://20.204.177.155:8081/erpapinew/api/"
+    "proxy": "http://localhost:8800/api/"
 }

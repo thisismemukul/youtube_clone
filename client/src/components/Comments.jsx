@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SPACING } from '../constants';
 import { fetchComments } from '../helper';
@@ -54,15 +55,15 @@ const Comments = ({ videoId }) => {
   const [comments, setComments] = useState([]);
   const [desc, setDesc] = useState('');
   useEffect(() => {
-    fetchComments(videoId,setComments);
-  }, [videoId,setComments]);
+    fetchComments(videoId, setComments);
+  }, [videoId, setComments]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post('/comments', { desc, videoId });
       setDesc('');
-      fetchComments(videoId,setComments);
+      fetchComments(videoId, setComments);
     } catch (error) {
       console.log(error);
     }
@@ -76,9 +77,18 @@ const Comments = ({ videoId }) => {
           <Avatar src="https://i.pravatar.cc/150?img=3" />
         )}
         <Input placeholder="Write a comment..." value={desc} onChange={(e) => setDesc(e.target.value)} />
-        <Buttons>
-          <Button onClick={handleSubmit}>Comment</Button>
-        </Buttons>
+        {currentUser ? (
+          <Buttons>
+            <Button onClick={handleSubmit}>Comment</Button>
+          </Buttons>
+        ) : (
+          <Link to="/signin" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Buttons>
+              <Button >Comment</Button>
+            </Buttons>
+          </Link>
+        )}
+
       </NewComment>
       {comments.map(comment => (
         <Comment key={comment._id} comment={comment} videoId={videoId} setComments={setComments} />
