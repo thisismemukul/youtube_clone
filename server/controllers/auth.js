@@ -34,6 +34,21 @@ export const signin = async(req, res, next) => {
         if (!user) return next(createError(404, "User not found"));
         const isCorrect = await bcrypt.compare(req.body.password, user.password);
         if (!isCorrect) return next(createError(400, "Wrong Credentials"));
+        if (!user.verified) {
+            let token = await Token.findOne({ userId: user._id });
+            if (!token) {
+                token = await new Token({
+                    userId: user._id,
+                    token: crypto.randomBytes(32).toString("hex"),
+                }).save();
+                const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
+                await sendEmail(user.email, "Verify Email", url);
+            }
+
+            return res
+                .status(400)
+                .send({ message: "An Email sent to your account please verify" });
+        }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
         const { password, ...userData } = user._doc;
         res.cookie("access_token", token, {
