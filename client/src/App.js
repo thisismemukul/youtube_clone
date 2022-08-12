@@ -16,6 +16,7 @@ import SignUp from './pages/SignUp';
 import Account from './pages/Account';
 import { useSelector } from 'react-redux';
 import EmailVerify from './components/EmailVerify';
+import Connect from './pages/Connect';
 const Container = styled.div`
 display: flex;
 background-color:${({ theme }) => theme.bg};
@@ -48,6 +49,7 @@ const App = () => {
                   <Route path="signin" element={<SignIn />} />
                   <Route path="signup" element={<SignUp />} />
                   {currentUser ? <Route path="account" element={<Account currentUser={currentUser} />} /> : <Route path="account" element={<SignIn />} />}
+                  <Route path="connect" element={<Connect />} />
                   <Route path="video">
                     <Route path=":id" element={<Video />} />
                   </Route>
