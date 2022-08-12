@@ -67,10 +67,10 @@ const Comment = ({ comment,videoId,setComments }) => {
   }
   return (
     <Container>
-      <Avatar src={channel.img} />
+      <Avatar src={channel?.img} />
       <Details>
         <Name>
-          {channel.name} <Date>1 day ago</Date>
+          {channel?.name} <Date>1 day ago</Date>
         </Name>
         <Text>{comment.desc}</Text>
       </Details>
