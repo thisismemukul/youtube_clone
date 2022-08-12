@@ -15,6 +15,7 @@ import Search from './pages/Search';
 import SignUp from './pages/SignUp';
 import Account from './pages/Account';
 import { useSelector } from 'react-redux';
+import EmailVerify from './components/EmailVerify';
 const Container = styled.div`
 display: flex;
 background-color:${({ theme }) => theme.bg};
@@ -50,6 +51,7 @@ const App = () => {
                   <Route path="video">
                     <Route path=":id" element={<Video />} />
                   </Route>
+                  <Route path="/auth/:id/verify/:token" element={<EmailVerify />} />
                 </Route>
               </Routes>
             </Wrapper>

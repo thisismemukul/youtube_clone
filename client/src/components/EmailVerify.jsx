@@ -1,10 +1,12 @@
 import React from 'react'
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from 'styled-components';
-import { SIZES, SPACING } from '../constants';
+import { SPACING } from '../constants';
 import { IoLogoYoutube } from "react-icons/io5";
+import { loginFailure, loginSuccess } from '../redux/userSlice';
+import { useDispatch } from 'react-redux';
 
 const Container = styled.div`
     display: flex;
@@ -36,22 +38,30 @@ cursor: pointer;
 `;
 
 const EmailVerify = () => {
-    const [validUrl, setValidUrl] = useState(true);
+    const [validUrl, setValidUrl] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const param = useParams();
     useEffect(() => {
         const verifyEmailUrl = async () => {
             try {
-                const url = `http://localhost:8080/api/users/${param.id}/verify/${param.token}`;
-                const { data } = await axios.get(url);
-                console.log(data);
-                setValidUrl(true);
+                const url = `http://localhost:8800/api/auth/${param.id}/verify/${param.token}`;
+                const response = await axios.get(url);
+                if (response.status === 200) {
+                    setValidUrl(true);
+                    dispatch(loginSuccess(response.data));
+                    dispatch(loginFailure(null));
+                    navigate('/');
+                }
             } catch (error) {
                 console.log(error);
                 setValidUrl(false);
+                dispatch(loginFailure(error.response.data));
+                navigate('/signin');
             }
         };
         verifyEmailUrl();
-    }, [param]);
+    }, [param, dispatch, navigate]);
     return (
         <Container>
             {validUrl ? (
@@ -63,7 +73,7 @@ const EmailVerify = () => {
                     </Link>
                 </Wrapper>
             ) : (
-                <h1>404 Not Found</h1>
+                <h1>404 Not Found Please Retry</h1>
             )}
         </Container>
     )

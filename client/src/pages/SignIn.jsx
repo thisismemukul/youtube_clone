@@ -74,7 +74,7 @@ const SignIn = () => {
     const dispatch = useDispatch();
     const { error } = useSelector(state => state.user);
     useEffect(() => {
-        if(error==='') {
+        if (error === '') {
             dispatch(loginFailure(''));
         }
         function isValidEmail(email) {
@@ -87,16 +87,17 @@ const SignIn = () => {
             setUsername(UnameOrEmail);
             setEmail('');
         }
-    }, [error,dispatch,UnameOrEmail])
+    }, [error, dispatch, UnameOrEmail])
     const handleLogin = async (e) => {
         e.preventDefault();
         dispatch(loginStart());
         try {
-            console.log(username);
             const response = username ? await axios.post('/auth/signin', { username, password }) : await axios.post('/auth/signin', { email, password });
-            dispatch(loginSuccess(response.data));
-            dispatch(loginFailure(null));
-            navigate('/');
+            if (response.status === 200) {
+                dispatch(loginSuccess(response.data));
+                dispatch(loginFailure(null));
+                navigate('/');
+            }
         } catch (error) {
             dispatch(loginFailure(error.response.data.message));
         }
@@ -123,7 +124,7 @@ const SignIn = () => {
     };
     return (
         <Container>
-            {error ==='' ? null : <ToastNotification message={error} />}
+            {error === '' ? null : <ToastNotification type="error" message={error} />}
             <Wrapper>
                 <Title>Sign In</Title>
                 <SubTitle>to continue to YouTube</SubTitle>

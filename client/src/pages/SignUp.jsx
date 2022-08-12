@@ -116,7 +116,6 @@ const SignUp = () => {
                 const img = "https://uploads.commoninja.com/searchengine/wordpress/adorable-avatars.png";
                 try {
                     const response = await axios.post('/auth/signup', { name, username, email, img, password });
-                    console.log("response", response.status);
                     if (response.status === 201) {
                         setMsg(response.data.message);
                         // dispatch(signupSuccess());
@@ -136,8 +135,8 @@ const SignUp = () => {
     };
     return (
         <Container>
-            {error && <ToastNotification message={error} />}
-            {msg && <ToastNotification message={msg} />}
+            {error && <ToastNotification  type="error"   message={error} />}
+            {msg && <ToastNotification type="success"  message={msg} />}
             <Wrapper>
                 <Title>Sign Up</Title>
                 <SubTitle>to continue your YouTube account</SubTitle>

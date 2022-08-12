@@ -18,7 +18,7 @@ export const signup = async(req, res, next) => {
             userId: newUser._id,
             token: crypto.randomBytes(32).toString("hex"),
         }).save();
-        const url = `${process.env.BASE_URL}users/${newUser.id}/verify/${token.token}`;
+        const url = `${process.env.BASE_URL}auth/${newUser.id}/verify/${token.token}`;
         await sendEmail(newUser.email, "Verify Email", url);
         res.status(201).send({ message: "User created successfully. An Email sent to your account please verify" });
 
@@ -41,7 +41,7 @@ export const signin = async(req, res, next) => {
                     userId: user._id,
                     token: crypto.randomBytes(32).toString("hex"),
                 }).save();
-                const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
+                const url = `${process.env.BASE_URL}auth/${user.id}/verify/${token.token}`;
                 await sendEmail(user.email, "Verify Email", url);
             }
 
