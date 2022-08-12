@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from 'styled-components';
-import { SPACING } from '../constants';
+import { SIZES, SPACING } from '../constants';
 import { IoLogoYoutube } from "react-icons/io5";
 import { loginFailure, loginSuccess } from '../redux/userSlice';
 import { useDispatch } from 'react-redux';
@@ -25,16 +25,18 @@ const Wrapper = styled.div`
 	justify-content: center;
 	flex-direction: column;
 `;
-const Button = styled.div`
-border: none;
-outline: none;
-padding: 12px 0;
-background-color: #3bb19b;
-border-radius: 20px;
-width: 180px;
-font-weight: bold;
-font-size: 14px;
+const Button = styled.button`
+padding: ${SIZES.base}px ${SIZES.medium}px;
+background-color: transparent;
+border: 1px solid ${({ theme }) => theme.link};
+color: ${({ theme }) => theme.link};
+border-radius: ${SPACING.xs}px;
+font-weight: 500;
+margin-top: ${SPACING.s}px;
 cursor: pointer;
+display: flex;
+align-items: center;
+gap: ${SPACING.xs};
 `;
 
 const EmailVerify = () => {

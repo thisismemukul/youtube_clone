@@ -12,7 +12,7 @@ import {
     MdOutlineArticle,
     MdOutlineLiveTv,
     MdOutlineSettings,
-    MdOutlinedFlag,
+    MdOutlineBugReport,
     MdOutlineHelpOutline,
     MdOutlineSettingsBrightness,
     MdOutlineAccountCircle,
@@ -223,10 +223,12 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
                         Settings
                     </Item>
                 </Link>
-                <Item>
-                    <MdOutlinedFlag size={18} />
-                    Report
-                </Item>
+                <Link to="connect" style={{ textDecoration: "none", color: 'inherit' }}>
+                    <Item>
+                        <MdOutlineBugReport size={18} />
+                        Report a Bug
+                    </Item>
+                </Link>
                 <Item>
                     <MdOutlineHelpOutline size={18} />
                     Help
