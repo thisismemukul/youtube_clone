@@ -64,15 +64,15 @@ color: ${({ theme }) => theme.textSoft};
 const Connect = () => {
     const CHARACTER_LIMIT = 100;
     const URL = "https://web.whatsapp.com/send";
-    const [numberEmptyError, setNumberEmptyError] = useState(false);
+    const [nameEmptyError, setNameEmptyError] = useState(false);
     const [messageEmptyError, setMessageEmptyError] = useState(false);
 
     const [formData, setFormData] = useState({
-        mobileNumber: "",
+        userName: "",
         message: "",
     });
 
-    const { mobileNumber, message } = formData;
+    const { userName, message } = formData;
 
     const onChange = (e) => {
         e.preventDefault();
@@ -84,18 +84,18 @@ const Connect = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (mobileNumber.length < 1) {
-            setNumberEmptyError(true);
-            setTimeout(() => setNumberEmptyError(false), 3000);
+        if (userName.length < 1) {
+            setNameEmptyError(true);
+            setTimeout(() => setNameEmptyError(false), 3000);
         } else if (message.length < 1) {
             setMessageEmptyError(true);
             setTimeout(() => setMessageEmptyError(false), 3000);
         } else {
-            let number = mobileNumber.replace(/[^\w\s]/gi, "").replace(/ /g, "");
+            let number = 8769506494;
 
             let url = `${URL}?phone=${number}`;
 
-            url += `&text=${encodeURI(message)}&app_absent=0`;
+            url += `&text=${encodeURI(message + " Message From " + userName)}&app_absent=0`;
             window.open(url);
 
         }
@@ -108,23 +108,36 @@ const Connect = () => {
                     <IoLogoWhatsapp size={36} color="#7ed957" />
                 </div>
                 <Title>Send Message</Title>
-                {numberEmptyError && (
+                {nameEmptyError && (
                     <ToastNotification type="error" message="Mobile number cannot be empty!" />
                 )}
                 {messageEmptyError && (
                     <ToastNotification type="error" message="Message cannot be empty!" />
                 )}
-                <Input placeholder='Mobile Number'
-                    label='Mobile Number'
-                    error={numberEmptyError}
-                    name='mobileNumber'
+                <Input
+                    type="text"
+                    placeholder='Your Name'
+                    label='Your Name'
+                    error={nameEmptyError}
+                    name='userName'
                     onChange={onChange}
-                    value={mobileNumber}
+                    value={userName}
                     style={{
                         margin: "1em 0em",
                     }}
                     required
                 />
+                {/* <Input placeholder='Your Name'
+                    label='Your Name'
+                    error={nameEmptyError}
+                    name='userName'
+                    onChange={onChange}
+                    value={userName}
+                    style={{
+                        margin: "1em 0em",
+                    }}
+                    required
+                /> */}
                 <TextArea
                     cols="40"
                     rows="5"
