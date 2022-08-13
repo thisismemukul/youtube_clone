@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-// import path from "path";
+import path from "path";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.js";
@@ -26,10 +26,10 @@ const connect = () => {
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/videos", videoRoutes);
-app.use("/api/comments", commentRoutes);
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/videos", videoRoutes);
+app.use("/comments", commentRoutes);
 
 app.use((err, req, res, next) => {
     const status = err.status || 500;
@@ -43,11 +43,10 @@ app.use((err, req, res, next) => {
 // serve static assets in production
 if (process.env.NODE_ENV === "production") {
     // set static folder
-    app.use(express.static("./client/build"));
-    // app.get('/', (req, res) => {
-    //     app.use(express.static(path.resolve(__dirname, './client', './build')))
-    //     res.sendFile(path.resolve(__dirname, './client', './build', './index.html'))
-    // })
+    app.use(express.static("client/build"));
+    app.get('/', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
 }
 
 const PORT = process.env.PORT || 8000;
