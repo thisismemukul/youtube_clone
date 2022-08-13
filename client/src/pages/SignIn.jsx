@@ -119,7 +119,7 @@ const SignIn = () => {
                     });
             })
             .catch((error) => {
-                dispatch(loginFailure(error.response.data.message));
+                dispatch(loginFailure(error.response));
             });
     };
     return (
