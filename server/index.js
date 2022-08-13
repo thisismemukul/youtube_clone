@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import path from "path";
+// import path from "path";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.js";
@@ -43,15 +43,15 @@ app.use((err, req, res, next) => {
 // serve static assets in production
 if (process.env.NODE_ENV === "production") {
     // set static folder
-    // app.use(express.static(path.join(__dirname, "client/build")));
-    app.get('/', (req, res) => {
-        app.use(express.static(path.resolve(__dirname, './client', './build')))
-        res.sendFile(path.resolve(__dirname, './client', './build', './index.html'))
-    })
+    app.use(express.static("./client/build"));
+    // app.get('/', (req, res) => {
+    //     app.use(express.static(path.resolve(__dirname, './client', './build')))
+    //     res.sendFile(path.resolve(__dirname, './client', './build', './index.html'))
+    // })
 }
 
-
-app.listen(8800, () => {
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
     connect()
-    console.log("Server is running on  8800");
+    console.log(`App is running on port${PORT}`);
 });

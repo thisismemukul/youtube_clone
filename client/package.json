@@ -2,7 +2,6 @@
     "name": "youtube",
     "version": "0.1.0",
     "private": true,
-    "proxy": "http://localhost:8800/api",
     "dependencies": {
         "@reduxjs/toolkit": "^1.8.3",
         "@testing-library/jest-dom": "^5.16.4",
