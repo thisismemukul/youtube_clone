@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 import Token from "../models/Emailtoken.js";
 import sendEmail from "../utils/sendEmail.js";
-import crypto from "crypto-js";
+import crypto from "crypto";
 export const signup = async(req, res, next) => {
     try {
         var salt = bcrypt.genSaltSync(10);
