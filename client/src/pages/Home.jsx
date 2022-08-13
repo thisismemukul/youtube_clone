@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Card from '../components/Card';
-import axios from 'axios';
+import { axiosInstance } from '../config';
 import LoadingComp from '../components/LoadingComp';
 import Tags from '../components/Tags';
 import { fetchAllSuccess } from '../redux/videosSlice';
@@ -52,7 +52,7 @@ const Home = ({ type }) => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const res = await axios.get(`/videos/${type}`);
+                const res = await axiosInstance.get(`/videos/${type}`);
                 dispatch(fetchAllSuccess(res.data));
                 setLoading(false);
             } catch (err) {
@@ -62,7 +62,7 @@ const Home = ({ type }) => {
         }
         const fetchTags = async () => {
             try {
-                const res = await axios.get(`/videos/tags/all`);
+                const res = await axiosInstance.get(`/videos/tags/all`);
                 setTags(res.data);
                 setLoading(false);
             } catch (err) {

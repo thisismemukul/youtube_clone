@@ -22,7 +22,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/userSlice';
-import axios from 'axios';
+import { axiosInstance } from '../config';
 import { fetchAllFailure, fetchAllSuccess } from '../redux/videosSlice';
 
 const Container = styled.div`
@@ -117,7 +117,7 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
     const [activeElement, setActiveElement] = useState('All')
     const logOut = async () => {
         try {
-            const response = await axios.post(`/auth/signout`);
+            const response = await axiosInstance.post(`/auth/signout`);
             if (response.status === 200) {
                 localStorage.removeItem('persist:root')
                 dispatch(logout());
@@ -131,10 +131,10 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
     const handleClick = async (tag) => {
         setActiveElement(tag)
         if (tag === 'All') {
-            dispatch(fetchAllSuccess(await axios.get(`/videos/random`).then(res => res.data)))
+            dispatch(fetchAllSuccess(await axiosInstance.get(`/videos/random`).then(res => res.data)))
         } else {
             try {
-                const res = await axios.get(`/videos/tags?tags=${tag}`);
+                const res = await axiosInstance.get(`/videos/tags?tags=${tag}`);
                 if (res.data.length > 0) {
                     dispatch(fetchAllSuccess(res.data));
                 } else {

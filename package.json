@@ -5,7 +5,8 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "nodemon index.js"
+        "start": "node index.js",
+        "heroku-postbuild": "cd client && npm install && npm run build"
     },
     "keywords": [
         "youtube",
@@ -22,6 +23,7 @@
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.13.14",
         "nodemailer": "^6.7.8",
-        "nodemon": "^2.0.19"
+        "nodemon": "^2.0.19",
+        "path": "^0.12.7"
     }
 }

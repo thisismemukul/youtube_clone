@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../firebase';
-import axios from 'axios';
+import { axiosInstance } from '../config';
 import { SIZES, SPACING } from '../constants';
 import { updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -153,7 +153,7 @@ const Account = ({ currentUser }) => {
         e.preventDefault();
         dispatch(updateUserStart());
         try {
-            const res = await axios.put(`/users/${currentUser._id}`, { ...inputs });
+            const res = await axiosInstance.put(`/users/${currentUser._id}`, { ...inputs });
             res.status === 200 && dispatch(updateUserSuccess(res.data));
         } catch (error) {
             dispatch(updateUserFailure(error.response.data.message));

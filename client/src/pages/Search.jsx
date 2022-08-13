@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from '../config';
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -31,7 +31,7 @@ const Search = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.get(`/videos/search${query}`);
+        const res = await axiosInstance.get(`/videos/search${query}`);
         setVideos(res.data);
         if (res.data.length === 0) {
           setError("No videos found");

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from '../config';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -35,11 +35,11 @@ const Tags = ({ tags }) => {
     const handleClick = async (tag) => {
         setActiveElement(tag)
         if (tag === 'All') {
-            dispatch(fetchAllSuccess(await axios.get(`/videos/random`).then(res => res.data)))
+            dispatch(fetchAllSuccess(await axiosInstance.get(`/videos/random`).then(res => res.data)))
         } else {
 
             try {
-                const res = await axios.get(`/videos/tags?tags=${tag}`);
+                const res = await axiosInstance.get(`/videos/tags?tags=${tag}`);
                 dispatch(fetchAllSuccess(res.data));
             } catch (err) { }
         }

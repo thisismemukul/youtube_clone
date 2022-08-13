@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from '../config';
 import React, { useEffect, useState } from "react";
 import { MdOutlineDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
@@ -51,7 +51,7 @@ const Comment = ({ comment,videoId,setComments }) => {
 
   useEffect(() => {
     const fetchComment = async () => {
-      const res = await axios.get(`/users/find/${comment.userId}`);
+      const res = await axiosInstance.get(`/users/find/${comment.userId}`);
       setChannel(res.data)
     };
     fetchComment();
@@ -59,7 +59,7 @@ const Comment = ({ comment,videoId,setComments }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
-      await axios.delete(`/comments/${comment._id}`);
+      await axiosInstance.delete(`/comments/${comment._id}`);
       fetchComments(videoId,setComments);
     } catch (error) {
       console.log(error);

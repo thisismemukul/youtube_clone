@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from '../config';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -61,7 +61,7 @@ const Comments = ({ videoId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`/comments`, { desc, videoId });
+      await axiosInstance.post(`/comments`, { desc, videoId });
       setDesc('');
       fetchComments(videoId, setComments);
     } catch (error) {

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from '../config';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -92,7 +92,7 @@ const SignIn = () => {
         e.preventDefault();
         dispatch(loginStart());
         try {
-            const response = username ? await axios.post(`/auth/signin`, { username, password }) : await axios.post(`/auth/signin`, { email, password });
+            const response = username ? await axiosInstance.post(`/auth/signin`, { username, password }) : await axiosInstance.post(`/auth/signin`, { email, password });
             if (response.status === 200) {
                 dispatch(loginSuccess(response.data));
                 dispatch(loginFailure(null));
@@ -107,7 +107,7 @@ const SignIn = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 const username = result.user.displayName.split(" ").join("").toLowerCase() + Math.floor(Math.random() * 90 + 10);
-                axios.post(`/auth/google`, {
+                axiosInstance.post(`/auth/google`, {
                     name: result.user.displayName,
                     username: username,
                     email: result.user.email,

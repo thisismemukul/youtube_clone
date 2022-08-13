@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { axiosInstance } from '../config';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
 import { IoLogoYoutube } from "react-icons/io5";
@@ -48,7 +48,7 @@ const EmailVerify = () => {
         const verifyEmailUrl = async () => {
             try {
                 const url = `/auth/${param.id}/verify/${param.token}`;
-                const response = await axios.get(url);
+                const response = await axiosInstance.get(url);
                 if (response.status === 200) {
                     setValidUrl(true);
                     dispatch(loginSuccess(response.data));

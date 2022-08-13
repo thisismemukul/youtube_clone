@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from '../config';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -91,7 +91,7 @@ const SignUp = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 const username = result.user.displayName.split(" ").join("").toLowerCase() + Math.floor(Math.random() * 90 + 10);
-                axios.post(`/auth/google`, {
+                axiosInstance.post(`/auth/google`, {
                     name: result.user.displayName,
                     username: username,
                     email: result.user.email,
@@ -115,7 +115,7 @@ const SignUp = () => {
                 setEmail(email);
                 const img = "https://uploads.commoninja.com/searchengine/wordpress/adorable-avatars.png";
                 try {
-                    const response = await axios.post(`/auth/signup`, { name, username, email, img, password });
+                    const response = await axiosInstance.post(`/auth/signup`, { name, username, email, img, password });
                     if (response.status === 201) {
                         setMsg(response.data.message);
                         // dispatch(signupSuccess());

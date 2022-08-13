@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axiosInstance } from '../config';
 import React, { useEffect, useState } from 'react'
 import { MdOutlineThumbUp, MdOutlineThumbDown, MdOutlineReply, MdOutlineAddTask, MdThumbUp, MdThumbDown } from 'react-icons/md';
 import timeago from 'timeago.js';
@@ -147,11 +147,11 @@ const Video = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const videoRes = await axios.get(`/videos/find/${path}`);
+        const videoRes = await axiosInstance.get(`/videos/find/${path}`);
         if (videoRes.data) {
-          await axios.put(`/videos/view/${path}`);
+          await axiosInstance.put(`/videos/view/${path}`);
         }
-        const channelRes = await axios.get(
+        const channelRes = await axiosInstance.get(
           `/users/find/${videoRes.data.userId}`
         );
         setChannel(channelRes.data);
@@ -162,17 +162,17 @@ const Video = () => {
     // incView();
   }, [path, dispatch]);
   const handleLike = async () => {
-    await axios.put(`/users/like/${currentVideo._id}`);
+    await axiosInstance.put(`/users/like/${currentVideo._id}`);
     dispatch(like(currentUser?._id));
   };
   const handleDislike = async () => {
-    await axios.put(`/users/dislike/${currentVideo._id}`);
+    await axiosInstance.put(`/users/dislike/${currentVideo._id}`);
     dispatch(dislike(currentUser?._id));
   };
   const handleSub = async () => {
     currentUser?.subscribedUsers.includes(channel._id)
-      ? await axios.put(`/users/unsub/${channel._id}`)
-      : await axios.put(`/users/sub/${channel._id}`);
+      ? await axiosInstance.put(`/users/unsub/${channel._id}`)
+      : await axiosInstance.put(`/users/sub/${channel._id}`);
     dispatch(subscription(channel._id));
   };
   return (

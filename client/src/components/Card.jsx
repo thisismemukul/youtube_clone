@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SIZES, SPACING } from '../constants';
 import timeago from 'timeago.js';
-
-
-import axios from 'axios';
 import LoadingComp from './LoadingComp';
+import { axiosInstance } from '../config';
 
 const Container = styled.div`
 display: ${(props) => props.type === 'sm' && 'flex'};
@@ -72,7 +70,7 @@ const Card = ({ type, video }) => {
     useEffect(() => {
         const fetchChannel = async () => {
             try {
-                const res = await axios.get(`/users/find/${video.userId}`);
+                const res = await axiosInstance.get(`/users/find/${video.userId}`);
                 setChannel(res.data);
                 setLoading(false);
             } catch (err) {
