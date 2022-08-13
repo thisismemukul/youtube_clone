@@ -61,7 +61,7 @@ const Comments = ({ videoId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/comments', { desc, videoId });
+      await axios.post(`/comments`, { desc, videoId });
       setDesc('');
       fetchComments(videoId, setComments);
     } catch (error) {

@@ -72,7 +72,7 @@ const Comment = ({ comment,videoId,setComments }) => {
         <Name>
           {channel?.name} <Date>1 day ago</Date>
         </Name>
-        <Text>{comment.desc}</Text>
+        <Text>{comment?.desc}</Text>
       </Details>
       {currentUser && currentUser._id === comment.userId ? (
       <ShowMore onClick={handleDelete}>

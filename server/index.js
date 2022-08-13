@@ -7,9 +7,9 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import videoRoutes from "./routes/videos.js";
 import commentRoutes from "./routes/comments.js";
-
 const app = express();
 dotenv.config();
+
 const connect = () => {
     mongoose.connect(process.env.MONGO, {
         useUnifiedTopology: true,
@@ -39,7 +39,8 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(8800, () => {
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
     connect()
-    console.log("Server is running on  8800");
+    console.log(`App is running on port ${PORT}`);
 });

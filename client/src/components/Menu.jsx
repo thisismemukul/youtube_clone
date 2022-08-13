@@ -117,7 +117,7 @@ const Menu = ({ darkMode, setDarkMode, setOpenMenu, type }) => {
     const [activeElement, setActiveElement] = useState('All')
     const logOut = async () => {
         try {
-            const response = await axios.post('/auth/signout');
+            const response = await axios.post(`/auth/signout`);
             if (response.status === 200) {
                 localStorage.removeItem('persist:root')
                 dispatch(logout());
