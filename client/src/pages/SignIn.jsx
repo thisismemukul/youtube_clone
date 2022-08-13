@@ -92,7 +92,7 @@ const SignIn = () => {
         e.preventDefault();
         dispatch(loginStart());
         try {
-            const response = username ? await axios.post('/auth/signin', { username, password }) : await axios.post('/auth/signin', { email, password });
+            const response = username ? await axios.post(`/auth/signin`, { username, password }) : await axios.post(`/auth/signin`, { email, password });
             if (response.status === 200) {
                 dispatch(loginSuccess(response.data));
                 dispatch(loginFailure(null));
@@ -107,7 +107,7 @@ const SignIn = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 const username = result.user.displayName.split(" ").join("").toLowerCase() + Math.floor(Math.random() * 90 + 10);
-                axios.post("/auth/google", {
+                axios.post(`/auth/google`, {
                     name: result.user.displayName,
                     username: username,
                     email: result.user.email,
