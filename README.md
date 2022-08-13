@@ -30,7 +30,7 @@ This is a Fully Functional MERN stack project Youtube clone using React, Node, M
 <li>Firebase</li>
 </ul>
 
-<h3> WEB APP Link 🔗: https://expo.dev/@thisismemukul/food_app?serviceType=classic&distribution=expo-go</h3>
+<h3> WEB APP Link 🔗: youtubeappclone.herokuapp.com </h3>
 <h3> Original App Link 🔗: https://www.youtube.com</h3>
 
 <p align="center">
