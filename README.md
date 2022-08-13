@@ -1,7 +1,7 @@
 # Fully Functional MERN Stack Youtube Clone
 
 <p align="center">
-<img src="https://github.com/thisismemukul/youtube_clone/blob/main/demo.png" alt="MERN Stack Youtube Clone" title="MERN Stack Youtube Clone show gif" width="500"/>
+<img src="https://github.com/thisismemukul/youtube_clone/blob/main/demo.gif" alt="MERN Stack Youtube Clone" title="MERN Stack Youtube Clone show gif" width="500"/>
 </p>
 This is a Fully Functional MERN stack project Youtube clone using React, Node, MongoDB and Firebase with Redux Toolkit, JWT Cookies and Firebase Storage. 
 <h4>Main Features:</h4>
