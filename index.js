@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import path from "path";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.js";
@@ -10,6 +11,8 @@ import commentRoutes from "./routes/comments.js";
 
 const app = express();
 dotenv.config();
+const __dirname = path.resolve()
+
 const connect = () => {
     mongoose.connect(process.env.MONGO, {
         useUnifiedTopology: true,
@@ -41,10 +44,11 @@ app.use((err, req, res, next) => {
 // serve static assets in production
 if (process.env.NODE_ENV === "production") {
     // set static folder
-    app.use(express.static(path.join(__dirname, "client/build")));
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-    });
+    // app.use(express.static(path.join(__dirname, "client/build")));
+    app.get('/', (req, res) => {
+        app.use(express.static(path.resolve(__dirname, 'client', 'build')))
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
 }
 
 

@@ -81,7 +81,7 @@ const Home = ({ type }) => {
             </Wrapper>
             <Container>
 
-                {err ? (<Details>No videos found Please Refresh</Details>) : allVideos ? allVideos.map((video) => <Card key={video._id} video={video} />) : loading ? (<LoadingComp />) : (
+                {err ? (<Details>No videos found Please Refresh</Details>) : allVideos ? allVideos?.map((video) => <Card key={video._id} video={video} />) : loading ? (<LoadingComp />) : (
                     <Details>No videos found</Details>
                 )}
             </Container>
