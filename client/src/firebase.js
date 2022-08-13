@@ -2,8 +2,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 const firebaseConfig = {
     apiKey: "AIzaSyCyh9mLOVviOh1YClelTPdmdU0wogK6KZA",
-    authDomain: "youtubeappclone.herokuapp.com",
-    // authDomain: "clone-8061c.firebaseapp.com",
+    // authDomain: "youtubeappclone.herokuapp.com",
+    authDomain: "clone-8061c.firebaseapp.com",
     projectId: "clone-8061c",
     storageBucket: "clone-8061c.appspot.com",
     messagingSenderId: "975218676373",
